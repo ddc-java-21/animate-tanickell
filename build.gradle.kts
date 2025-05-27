@@ -60,8 +60,13 @@ tasks.jacocoTestReport {
 }
 
 fun getProperty(filename: String, key: String) : String { // with ?, might return null; part of the type name in Kotlin
-    val input: InputStream = FileInputStream(filename)
-    val props = Properties()
-    props.load(input)
-    return props.getProperty(key)!!
+    return FileInputStream(filename).use { // 'it' is the parameter to this 'lambda'
+        val props = Properties()
+        props.load(it)
+        props.getProperty(key)!!
+    }
+}
+
+fun getLocalProperty(key: String): String {
+    return getProperty("local.properties", key)
 }
