@@ -10,10 +10,12 @@ import edu.cnm.deepdive.apod.model.Apod;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.Properties;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
 import retrofit2.Response;
@@ -51,6 +53,15 @@ public class ApodService {
     }
     return response.body();
   }
+  public InputStream getImageStream(URL url) throws IOException {
+    Response<ResponseBody> response = proxy.download(url.toString()).execute(); // proxy.download returns black box; execute presses red button on the box
+    if (!response.isSuccessful()) {
+      throw new RuntimeException();
+    }
+    //noinspection resource,DataFlowIssue
+    return response.body().byteStream(); // .body() returns a ResponseBody // ignore the possible exception/ lack of try-with-resources
+  }
+
   private String getLocalProperty(String key) throws IOException {
     try (InputStream input = getClass().getClassLoader().getResourceAsStream("local.properties")) {
       Properties props = new Properties();
