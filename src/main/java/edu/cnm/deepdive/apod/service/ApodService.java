@@ -31,7 +31,7 @@ public class ApodService {
         .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
         .create();
     Interceptor loggingInterceptor = new HttpLoggingInterceptor()
-        .setLevel(Level.BODY); // logs ALL to the console, including payloads
+        .setLevel(Level.NONE); // BODY logs ALL to the console, including payloads; NONE logs nothing
     OkHttpClient client = new OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .build();
