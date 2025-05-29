@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Properties;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -53,6 +54,14 @@ public class ApodService {
     }
     return response.body();
   }
+  public Apod[] getApods(LocalDate startDate, LocalDate endDate) throws IOException {
+    Response<Apod[]> response = proxy.get(startDate, endDate, apiKey).execute();
+    if (!response.isSuccessful()) {
+      throw new RuntimeException();
+    }
+    return response.body();
+  }
+
   public InputStream getImageStream(URL url) throws IOException {
     Response<ResponseBody> response = proxy.download(url.toString()).execute(); // proxy.download returns black box; execute presses red button on the box
     if (!response.isSuccessful()) {
