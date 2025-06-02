@@ -4,16 +4,18 @@ import android.app.Application;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.service.ApodService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import java.time.LocalDate;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-public class ApodViewModel extends AndroidViewModel {
+public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
   private static final String TAG = ApodViewModel.class.getSimpleName();
 
@@ -45,7 +47,7 @@ public class ApodViewModel extends AndroidViewModel {
   }
 
   public void fetch(LocalDate date) {
-    throwable.setValue(null); // monitoring no object right now  // we're sure we're on the UI thread
+    throwable.setValue(null); // monitoring no object right now // we're sure we're on the UI thread
     apodService
         .getApod(date)
         .subscribe( // consumers:
@@ -66,10 +68,15 @@ public class ApodViewModel extends AndroidViewModel {
         );
   }
 
+  @Override
+  public void onStop(@NotNull LifecycleOwner owner) {
+    pending.clear();
+    DefaultLifecycleObserver.super.onStop(owner);
+  }
+
   private void postThrowable(Throwable throwable) {
     Log.e(TAG, throwable.getMessage(), throwable);
     this.throwable.postValue(throwable);
   }
-
 
 }
