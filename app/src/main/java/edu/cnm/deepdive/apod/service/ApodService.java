@@ -7,12 +7,14 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import edu.cnm.deepdive.apod.model.Apod;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Properties;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -27,6 +29,7 @@ public class ApodService {
 
   private final ApodProxy proxy;
   private final String apiKey;
+  private final Scheduler scheduler;
 
   public ApodService() throws IOException {
     Gson gson = new GsonBuilder()
@@ -44,39 +47,19 @@ public class ApodService {
         .baseUrl(getLocalProperty("base_url"))
         .build()
         .create(ApodProxy.class);
-    apiKey = getLocalProperty("api_key");
+    apiKey = getLocalProperty("api_key"); // FIXME: 6/2/25 Read from string resources.
+    scheduler = Schedulers.io();
   }
 
-  public Apod getApod(LocalDate date) throws IOException {
-    Response<Apod> response = proxy.get(date, apiKey).execute(); // returns a Call<Apod> object //returns a Response<Apod> --> wait for the response to come back, get that response, then return
-    if (!response.isSuccessful()) {
-      throw new RuntimeException();
-    }
-    return response.body();
+  public Single<Apod> getApod(LocalDate date) throws IOException {
+    return proxy
+        .get(date, apiKey)
+        .subscribeOn(scheduler); // returning instead of an apod object, the piece of machinery that will fetch the Apod and pass it downstream WHEN TURNED ON
   }
-  public Apod[] getApods(LocalDate startDate, LocalDate endDate) throws IOException {
-    Response<Apod[]> response = proxy.get(startDate, endDate, apiKey).execute();
-    if (!response.isSuccessful()) {
-      throw new RuntimeException();
-    }
-    return response.body();
-  }
-
-  public InputStream getImageStream(URL url) throws IOException {
-    Response<ResponseBody> response = proxy.download(url.toString()).execute(); // proxy.download returns black box; execute presses red button on the box
-    if (!response.isSuccessful()) {
-      throw new RuntimeException();
-    }
-    //noinspection resource,DataFlowIssue
-    return response.body().byteStream(); // .body() returns a ResponseBody // ignore the possible exception/ lack of try-with-resources
-  }
-
-  private String getLocalProperty(String key) throws IOException {
-    try (InputStream input = getClass().getClassLoader().getResourceAsStream("local.properties")) {
-      Properties props = new Properties();
-      props.load(input);
-      return props.getProperty(key);
-    }
+  public Single<Apod[]> getApods(LocalDate startDate, LocalDate endDate) throws IOException {
+    return proxy
+        .get(startDate, endDate, apiKey)
+        .subscribeOn(scheduler);
   }
 
   private static class LocalDateDeserializer implements JsonDeserializer<LocalDate> {
