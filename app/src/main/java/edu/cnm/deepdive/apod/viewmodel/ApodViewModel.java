@@ -1,0 +1,75 @@
+package edu.cnm.deepdive.apod.viewmodel;
+
+import android.app.Application;
+import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import edu.cnm.deepdive.apod.model.Apod;
+import edu.cnm.deepdive.apod.service.ApodService;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.functions.Consumer;
+import java.time.LocalDate;
+import java.util.List;
+
+public class ApodViewModel extends AndroidViewModel {
+
+  private static final String TAG = ApodViewModel.class.getSimpleName();
+
+  private final MutableLiveData<Apod> apod;
+  private final MutableLiveData<List<Apod>> apods;
+  private final MutableLiveData<Throwable> throwable;
+  private final CompositeDisposable pending;
+  private final ApodService apodService;
+
+  public ApodViewModel(@NonNull Application application) {
+    super(application);
+    apod = new MutableLiveData<>();
+    apods = new MutableLiveData<>();
+    throwable = new MutableLiveData<>();
+    pending = new CompositeDisposable();
+    apodService = ApodService.getInstance(); // gets reference to the one ApodService instance that exists
+  }
+
+  public LiveData<Apod> getApod() {
+    return apod;
+  }
+
+  public LiveData<List<Apod>> getApods() {
+    return apods;
+  }
+
+  public LiveData<Throwable> getThrowable() {
+    return throwable;
+  }
+
+  public void fetch(LocalDate date) {
+    throwable.setValue(null); // monitoring no object right now  // we're sure we're on the UI thread
+    apodService
+        .getApod(date)
+        .subscribe( // consumers:
+            apod::postValue, // invoked on thread other than UI thread
+            this::postThrowable, // downstream
+            pending
+        );
+  }
+
+  public void fetch(LocalDate startDate, LocalDate endDate) {
+    throwable.setValue(null);
+    apodService
+        .getApods(startDate, endDate)
+        .subscribe(
+            apods::postValue,
+            this::postThrowable,
+            pending
+        );
+  }
+
+  private void postThrowable(Throwable throwable) {
+    Log.e(TAG, throwable.getMessage(), throwable);
+    this.throwable.postValue(throwable);
+  }
+
+
+}
