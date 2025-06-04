@@ -44,6 +44,7 @@ public class ListFragment extends Fragment {
 
   @Override
   public void onDestroyView() {
+    binding = null;
     // TODO: 6/4/25 Set reference to view binding to null.
     super.onDestroyView();
   }
