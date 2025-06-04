@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.apod.controller;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class ListFragment extends Fragment {
 
+  private static final String TAG = ListFragment.class.getSimpleName();
   private FragmentListBinding binding;
   private ApodViewModel viewModel;
 
@@ -33,19 +35,21 @@ public class ListFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
-    viewModel
+    viewModel // gives a reference to that inflated layout (recyclerview that was instantiated on inflation)
         .getApods()
         .observe(getViewLifecycleOwner(),
-            (apods) -> binding.apods.setAdapter(new ApodAdapter(requireContext(), apods)) // gives a reference to that inflated layout (recyclerview that was instantiated on inflation)
-        );
-    // TODO: 6/4/25 Get instance(s) of viewmodel(s); observe live data as appropriate; invoke
-    //  initial actions in viewmodel.
+            (apods) -> {
+              ApodAdapter adapter = new ApodAdapter(requireContext(), apods,
+                  (apod, pos) -> Log.d(TAG, "Thumbnail clicked for " + apod.getDate()),
+                  (apod, pos) -> Log.d(TAG, "Info clicked for " + apod.getDate())
+              );
+              binding.apods.setAdapter(adapter);
+            });
   }
 
   @Override
   public void onDestroyView() {
     binding = null;
-    // TODO: 6/4/25 Set reference to view binding to null.
     super.onDestroyView();
   }
   

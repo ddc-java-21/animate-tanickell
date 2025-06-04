@@ -4,10 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.squareup.picasso.Picasso;
+import edu.cnm.deepdive.apod.R;
 import edu.cnm.deepdive.apod.databinding.ItemApodBinding;
 import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.model.Apod.MediaType;
@@ -18,12 +20,18 @@ import java.util.List;
 public class ApodAdapter extends Adapter<ViewHolder> {
 
   private final List<Apod> apods;
+  private final OnApodClickListener onThumbnailClickListener;
+  private final OnApodClickListener onInfoClickListener;
   private final LayoutInflater inflater;
   private final DateTimeFormatter formatter;
 
-  public ApodAdapter(Context context, List<Apod> apods) {
+  public ApodAdapter(@NonNull Context context, @NonNull List<Apod> apods,
+      @NonNull OnApodClickListener onThumbnailClickListener,
+      @NonNull OnApodClickListener onInfoClickListener) {
     this.apods = apods;
     inflater = LayoutInflater.from(context);
+    this.onThumbnailClickListener = onThumbnailClickListener;
+    this.onInfoClickListener = onInfoClickListener;
     formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
   }
 
@@ -31,7 +39,7 @@ public class ApodAdapter extends Adapter<ViewHolder> {
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int itemType) {
     ItemApodBinding binding = ItemApodBinding.inflate(inflater, viewGroup, false); // false means we don't attach it to that viewGroup, that's the job of the recyclerview, not the adapter's
-    return new Holder(binding, formatter);
+    return new Holder(binding);
   }
 
   @Override
@@ -44,15 +52,13 @@ public class ApodAdapter extends Adapter<ViewHolder> {
     return apods.size();
   }
 
-  private static class Holder extends ViewHolder { // to see formatter, we can either remove static (bad), or pass into constructor
+  private class Holder extends ViewHolder { // to see formatter, we can either remove static (bad), or pass into constructor
 
     private final ItemApodBinding binding;
-    private final DateTimeFormatter formatter;
 
-    Holder(@NonNull ItemApodBinding binding, DateTimeFormatter formatter) {
+    Holder(@NonNull ItemApodBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
-      this.formatter = formatter;
     }
 
     void bind(int position, Apod apod) {
@@ -62,8 +68,23 @@ public class ApodAdapter extends Adapter<ViewHolder> {
         Picasso.get()
             .load(Uri.parse(apod.getUrl().toString()))
             .into(binding.thumbnail);
+        binding.mediaTypeThumbnail.setImageResource(R.drawable.photo_camera);
+      } else {
+        // TODO: 6/4/25 Load video thumbnail for Youtube video.
+        binding.thumbnail.setImageResource(R.drawable.video_camera);
+        binding.mediaTypeThumbnail.setImageResource(R.drawable.video_camera);
       }
+      binding.thumbnail.setContentDescription(apod.getTitle()); // TODO: 6/4/25 Include more info.
+      binding.thumbnail.setOnClickListener((v) -> onThumbnailClickListener.onApodClick(apod, position)); // just receives a view object
+      binding.info.setOnClickListener((v) -> onInfoClickListener.onApodClick(apod, position));
     }
+
+  }
+
+  @FunctionalInterface
+  public interface OnApodClickListener {
+
+    void onApodClick(Apod apod, int position);
 
   }
 
