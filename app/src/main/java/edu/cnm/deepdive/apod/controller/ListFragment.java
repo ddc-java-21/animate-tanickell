@@ -44,11 +44,23 @@ public class ListFragment extends Fragment {
         .observe(getViewLifecycleOwner(),
             (apods) -> {
               ApodAdapter adapter = new ApodAdapter(requireContext(), apods,
-                  (apod, pos) -> navigateToMedia(apod),
-                  (apod, pos) -> Log.d(TAG, "Info clicked for " + apod.getDate())
+                  (apod, pos) -> navigateToMedia(apod), // listener for clicking on a thumbnail
+                  (apod, pos) -> navigateToInfo(apod) // listener for clicking on info
               );
               binding.apods.setAdapter(adapter);
             });
+  }
+
+  @Override
+  public void onDestroyView() {
+    binding = null;
+    super.onDestroyView();
+  }
+
+  private void navigateToInfo(Apod apod) {
+    viewModel.setApod(apod);
+    Navigation.findNavController(binding.getRoot())
+        .navigate(ListFragmentDirections.displayInfo());
   }
 
   private void navigateToMedia(Apod apod) {
@@ -66,13 +78,5 @@ public class ListFragment extends Fragment {
       }
     }
   }
-
-  @Override
-  public void onDestroyView() {
-    binding = null;
-    super.onDestroyView();
-  }
-  
-  
   
 }

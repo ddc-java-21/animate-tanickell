@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.OnItemClickListener;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
@@ -68,11 +67,12 @@ public class ApodAdapter extends Adapter<ViewHolder> {
     }
 
     void bind(int position, Apod apod) {
-      binding.title.setText(apod.getTitle());
+      binding.title.setText(apod.getTitle().strip());
       binding.date.setText(formatter.format(apod.getDate()));
       binding.mediaTypeThumbnail.setVisibility(View.VISIBLE);
       binding.thumbnail.setContentDescription(apod.getTitle()); // DONE: 6/4/25 Include more info.
-      binding.thumbnail.setOnClickListener((v) -> onThumbnailClickListener.onApodClick(apod, position)); // just receives a view object
+      binding.thumbnail.setOnClickListener(
+          (v) -> onThumbnailClickListener.onApodClick(apod, position)); // just receives a view object
       binding.info.setOnClickListener((v) -> onInfoClickListener.onApodClick(apod, position));
       MediaType mediaType = apod.getMediaType();
       if (mediaType == MediaType.IMAGE) {
