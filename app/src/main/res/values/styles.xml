@@ -17,7 +17,12 @@
 <resources>
   <!-- Base application theme. -->
   <style name="AppTheme" parent="Theme.Material3.DayNight">
+    <item name="colorPrimary">#FF800080</item>
     <!-- Customize your theme here. -->
+  </style>
+
+  <style name="InfoDate" parent="TextAppearance.Material3.TitleMedium">
+    <item name="android:textSize">18sp</item>
   </style>
 
 </resources>

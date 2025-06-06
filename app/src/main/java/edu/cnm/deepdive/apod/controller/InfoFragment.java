@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import edu.cnm.deepdive.apod.databinding.FragmentInfoBinding;
 import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class InfoFragment extends BottomSheetDialogFragment {
 
@@ -31,14 +33,22 @@ public class InfoFragment extends BottomSheetDialogFragment {
     viewModel
         .getApod()
         .observe(getViewLifecycleOwner(), apod -> {
+          DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+          binding.date.setText(formatter.format(apod.getDate())); // apod.getDate().format(formatter) --> date, format yourself (as opposed to formatter, format this date)
           binding.title.setText(apod.getTitle().strip());
           binding.description.setText(apod.getExplanation().strip());
+          if (apod.getCopyright() != null && !apod.getCopyright().isBlank()) {
+            binding.copyright.setText(apod.getCopyright().strip());
+          } else {
+            binding.copyrightLayout.setVisibility(View.GONE);
+          }
           // DONE: 6/5/25 Populate view widgets with data from apod.
         });
   }
 
   @Override
   public void onDestroyView() {
+    binding = null;
     super.onDestroyView();
   }
 
