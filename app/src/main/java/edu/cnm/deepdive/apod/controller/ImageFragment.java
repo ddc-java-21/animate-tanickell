@@ -7,8 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.MediaColumns;
 import android.view.LayoutInflater;
@@ -32,14 +30,15 @@ import edu.cnm.deepdive.apod.R;
 import edu.cnm.deepdive.apod.databinding.FragmentImageBinding;
 import edu.cnm.deepdive.apod.model.Apod;
 import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 
 public class ImageFragment extends Fragment implements MenuProvider {
 
   private FragmentImageBinding binding;
   private Apod apod;
+  private ApodViewModel viewModel;
 
   @Nullable
   @Override
@@ -54,7 +53,7 @@ public class ImageFragment extends Fragment implements MenuProvider {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     // DONE: 6/4/25 Create a viewmodel provider, and use it to get a reference to viewmodel instance.
-    ApodViewModel viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
     viewModel
         .getApod()
         .observe(getViewLifecycleOwner(), this::displayApod);
@@ -68,16 +67,21 @@ public class ImageFragment extends Fragment implements MenuProvider {
 
   @Override
   public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-    menuInflater.inflate(R.menu.detail_actions, menu);
+    menuInflater.inflate(R.menu.image_actions, menu);
   }
 
   @Override
   public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
     boolean handled = false;
-    if (menuItem.getItemId() == R.id.show_info) {
+    int itemId = menuItem.getItemId();
+    if (itemId == R.id.show_info) {
       handled = true; // otherwise it'll keep asking other menu providers
       Navigation.findNavController(binding.getRoot())
           .navigate(ImageFragmentDirections.displayInfo());
+    } else if (itemId == R.id.download_image) {
+      handled = true; // again, otherwise it'll keep asking other menu providers
+      URL hdurl = apod.getHdurl();
+      viewModel.downloadImage(apod.getTitle(), (hdurl != null) ? hdurl : apod.getUrl());
     }
     return handled;
   }
