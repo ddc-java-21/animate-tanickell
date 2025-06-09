@@ -1,16 +1,28 @@
 package edu.cnm.deepdive.apod.service;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore.Images.Media;
+import android.provider.MediaStore.MediaColumns;
 import edu.cnm.deepdive.apod.R;
 import edu.cnm.deepdive.apod.model.Apod;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableEmitter;
+import io.reactivex.rxjava3.core.CompletableOnSubscribe;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,6 +34,8 @@ import retrofit2.Response;
 
 public class ApodService {
 
+  private static final String CONTENT_TYPE_HEADER = "Content-Type";
+  private static final int BUFFER_SIZE = 16_384;
   @SuppressLint("StaticFieldLeak")
   private static Context context;
 
@@ -51,19 +65,50 @@ public class ApodService {
         .map(Arrays::asList);
   }
 
-  public Completable downloadImage(Apod apod) {
-    return
-        Single.create((SingleEmitter<ResponseBody> emitter) -> {
-          Response<ResponseBody> response = proxy.download(apod.getHdurl().toString()).execute();
-          if (response.isSuccessful()) {
-            // TODO: 6/6/25 Save file in gallery.
-            emitter.onSuccess(response.body());
-          } else {
-            emitter.onError(new IOException(response.message()));
+  /** @noinspection BlockingMethodInNonBlockingContext*/
+  public Completable downloadImage(String title, URL url) {
+    return Completable.create((CompletableEmitter emitter) -> {
+      Response<ResponseBody> response = proxy.download(url.toString()).execute();
+      if (response.isSuccessful()) {
+        ContentValues values = new ContentValues();
+        values.put(MediaColumns.DISPLAY_NAME, title);
+        values.put(MediaColumns.RELATIVE_PATH,
+            context.getString(R.string.apod_directory_format, Environment.DIRECTORY_PICTURES));
+        values.put(MediaColumns.IS_PENDING, 1);
+        String mimeType = response.headers().get(CONTENT_TYPE_HEADER);
+        if (mimeType != null) {
+          values.put(MediaColumns.MIME_TYPE, mimeType);
+        }
+        ContentResolver resolver = context.getContentResolver();
+        Uri uri = resolver.insert(Media.EXTERNAL_CONTENT_URI, values); // hey content resolver, get me the uri that you get when you put this in the database
+        if (uri != null) {
+          //noinspection DataFlowIssue
+          try (
+              ResponseBody responseBody = response.body(); // implements closeable, so can be used here
+              InputStream input = responseBody.byteStream(); // if we got this far, we know this is not null
+              OutputStream output = resolver.openOutputStream(uri); // hey resolver, open output stream w uri you gave me earlier (write file in fs)
+          ) {
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int bytesRead;
+            while ((bytesRead = input.read(buffer)) >= 0) {
+              output.write(buffer, 0, bytesRead);
+            }
+            values.clear(); // don't need to write title again --> it's already in the database!
+            values.put(MediaColumns.IS_PENDING, 0);
+            resolver.update(uri, values, null, null);
+          } catch (IOException e) {
+            resolver.delete(uri, null, null);
+            emitter.onError(e);
           }
-        })
-        .subscribeOn(scheduler)
-        .ignoreElement();
+        } else {
+          emitter.onError(new RuntimeException()); // should never get here!
+        }
+      } else {
+        emitter.onError(new IOException(response.message()));
+      }
+      emitter.onComplete(); // viewmodel will subscribe to this to make sure it was successful
+    })
+        .subscribeOn(scheduler);
   }
 
   public static ApodService getInstance() {
