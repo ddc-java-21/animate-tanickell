@@ -14,6 +14,7 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableEmitter;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleEmitter;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,8 +59,8 @@ public class ApodService {
         .map(Arrays::asList);
   }
 
-  public Completable downloadImage(String title, URL url) {
-    return Completable.create((CompletableEmitter emitter) -> {
+  public Single<Uri> downloadImage(String title, URL url) {
+    return Single.create((SingleEmitter<Uri> emitter) -> {
       Response<ResponseBody> response = proxy.download(url.toString()).execute();
       if (response.isSuccessful()) {
         ContentResolver resolver = context.getContentResolver();
@@ -72,7 +73,6 @@ public class ApodService {
       } else {
         emitter.onError(new IOException(response.message()));
       }
-      emitter.onComplete(); // viewmodel will subscribe to this to make sure it was successful
     })
         .subscribeOn(scheduler);
   }
@@ -81,7 +81,7 @@ public class ApodService {
     return Holder.INSTANCE;
   }
 
-  private static void writeFileFromResponse(CompletableEmitter emitter, Response<ResponseBody> response,
+  private static void writeFileFromResponse(SingleEmitter<Uri> emitter, Response<ResponseBody> response,
       ContentResolver resolver, Uri uri) {
     //noinspection DataFlowIssue
     try (
@@ -97,6 +97,7 @@ public class ApodService {
       ContentValues confirmationValues = new ContentValues();
       confirmationValues.put(MediaColumns.IS_PENDING, 0);
       resolver.update(uri, confirmationValues, null, null);
+      emitter.onSuccess(uri);
     } catch (IOException e) {
       resolver.delete(uri, null, null);
       emitter.onError(e);

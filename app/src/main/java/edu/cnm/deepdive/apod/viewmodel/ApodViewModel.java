@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.apod.viewmodel;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,7 +23,7 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
 
   private final MutableLiveData<Apod> apod;
   private final MutableLiveData<List<Apod>> apods;
-  private final MutableLiveData<Boolean> downloadComplete;
+  private final MutableLiveData<Uri> downloadedImage;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
   private final ApodService apodService;
@@ -31,7 +32,7 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
     super(application);
     apod = new MutableLiveData<>();
     apods = new MutableLiveData<>();
-    downloadComplete = new MutableLiveData<>();
+    downloadedImage = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     apodService = ApodService.getInstance(); // gets reference to the one ApodService instance that exists
@@ -52,8 +53,12 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
     return apods;
   }
 
-  public LiveData<Boolean> getDownloadComplete() {
-    return downloadComplete;
+  public LiveData<Uri> getDownloadedImage() {
+    return downloadedImage;
+  }
+
+  public void clearDownloadedImage() {
+    downloadedImage.setValue(null);
   }
 
   public LiveData<Throwable> getThrowable() {
@@ -84,11 +89,11 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
 
   public void downloadImage(String title, URL url) {
     throwable.setValue(null);
-    downloadComplete.setValue(null);
+    clearDownloadedImage();
     apodService
         .downloadImage(title, url)
         .subscribe(
-            () -> downloadComplete.postValue(true),
+            downloadedImage::postValue,
             this::postThrowable,
             pending
         );
