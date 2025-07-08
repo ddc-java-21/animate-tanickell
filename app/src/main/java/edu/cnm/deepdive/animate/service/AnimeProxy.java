@@ -8,7 +8,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import edu.cnm.deepdive.animate.R;
-import edu.cnm.deepdive.animate.model.Animate;
+import edu.cnm.deepdive.animate.model.Anime;
 import io.reactivex.rxjava3.core.Single;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
@@ -25,22 +25,22 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
-public interface AnimateProxy {
+public interface AnimeProxy {
 
   Context[] contexts = new Context[1];
 
   @GET("planetary/apod")
-  Single<Animate> get(@Query("date") LocalDate date, @Query("api_key") String apiKey); // get "black box" to send across the wire; include data in request
+  Single<Anime> get(@Query("date") LocalDate date, @Query("api_key") String apiKey); // get "black box" to send across the wire; include data in request
 
   @GET("planetary/apod")
-  Single<Animate[]> get(
+  Single<Anime[]> get(
       @Query("start_date") LocalDate startDate, @Query("end_date") LocalDate endDate,
       @Query("api_key") String apiKey);
 
   @GET()
   Call<ResponseBody> download(@Url String url); // Single<ResponseBody> doesn't include headers
 
-  static AnimateProxy getInstance() {
+  static AnimeProxy getInstance() {
     return Holder.INSTANCE;
   }
 
@@ -50,7 +50,7 @@ public interface AnimateProxy {
 
   class Holder {
 
-    private static final AnimateProxy INSTANCE;
+    private static final AnimeProxy INSTANCE;
 
     static {
       Gson gson = new GsonBuilder()
@@ -68,7 +68,7 @@ public interface AnimateProxy {
           .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
           .baseUrl(contexts[0].getString(R.string.base_url))
           .build()
-          .create(AnimateProxy.class);
+          .create(AnimeProxy.class);
 
     }
 

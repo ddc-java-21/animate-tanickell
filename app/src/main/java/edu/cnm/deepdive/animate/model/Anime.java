@@ -9,12 +9,12 @@ import java.net.URL;
 import java.time.LocalDate;
 
 @Entity(
-    tableName = "animate"
+    tableName = "anime"
 )
-public class Animate {
+public class Anime {
 
   @PrimaryKey(autoGenerate = true)
-  @ColumnInfo(name = "animate_id")
+  @ColumnInfo(name = "anime_id")
   private long id;
 
   @Expose(serialize = false, deserialize = true)
@@ -42,7 +42,7 @@ public class Animate {
   @ColumnInfo(name = "media_type")
   private final MediaType mediaType;
 
-  Animate(LocalDate date, String title, String explanation, String copyright, URL url,
+  Anime(LocalDate date, String title, String explanation, String copyright, URL url,
       URL hdurl, MediaType mediaType) {
     this.date = date;
     this.title = title;

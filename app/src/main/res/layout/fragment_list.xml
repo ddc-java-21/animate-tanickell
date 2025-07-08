@@ -75,13 +75,13 @@
     app:constraint_referenced_ids="thumbnail_header,title_header,date_header"/>
 
   <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/animates"
+    android:id="@+id/animes"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:orientation="vertical"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     app:layout_constraintTop_toBottomOf="@id/header_barrier"
     app:layout_constraintBottom_toBottomOf="parent"
-    tools:listitem="@layout/item_animate"/>
+    tools:listitem="@layout/item_anime"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

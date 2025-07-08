@@ -9,14 +9,14 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import edu.cnm.deepdive.animate.databinding.FragmentInfoBinding;
-import edu.cnm.deepdive.animate.viewmodel.AnimateViewModel;
+import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 public class InfoFragment extends BottomSheetDialogFragment {
 
   private FragmentInfoBinding binding;
-  private AnimateViewModel viewModel;
+  private AnimeViewModel viewModel;
 
   @Nullable
   @Override
@@ -29,20 +29,20 @@ public class InfoFragment extends BottomSheetDialogFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    viewModel = new ViewModelProvider(requireActivity()).get(AnimateViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(AnimeViewModel.class);
     viewModel
-        .getAnimate()
-        .observe(getViewLifecycleOwner(), animate -> {
+        .getAnime()
+        .observe(getViewLifecycleOwner(), anime -> {
           DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
-          binding.date.setText(formatter.format(animate.getDate())); // animate.getDate().format(formatter) --> date, format yourself (as opposed to formatter, format this date)
-          binding.title.setText(animate.getTitle().strip());
-          binding.description.setText(animate.getExplanation().strip());
-          if (animate.getCopyright() != null && !animate.getCopyright().isBlank()) {
-            binding.copyright.setText(animate.getCopyright().strip());
+          binding.date.setText(formatter.format(anime.getDate())); // anime.getDate().format(formatter) --> date, format yourself (as opposed to formatter, format this date)
+          binding.title.setText(anime.getTitle().strip());
+          binding.description.setText(anime.getExplanation().strip());
+          if (anime.getCopyright() != null && !anime.getCopyright().isBlank()) {
+            binding.copyright.setText(anime.getCopyright().strip());
           } else {
             binding.copyrightLayout.setVisibility(View.GONE);
           }
-          // DONE: 6/5/25 Populate view widgets with data from animate.
+          // DONE: 6/5/25 Populate view widgets with data from anime.
         });
   }
 

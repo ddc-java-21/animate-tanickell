@@ -22,8 +22,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentVideoBinding;
-import edu.cnm.deepdive.animate.model.Animate;
-import edu.cnm.deepdive.animate.viewmodel.AnimateViewModel;
+import edu.cnm.deepdive.animate.model.Anime;
+import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 
 public class VideoFragment extends Fragment implements MenuProvider {
 
@@ -50,10 +50,10 @@ public class VideoFragment extends Fragment implements MenuProvider {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    AnimateViewModel viewModel = new ViewModelProvider(requireActivity()).get(AnimateViewModel.class);
+    AnimeViewModel viewModel = new ViewModelProvider(requireActivity()).get(AnimeViewModel.class);
     viewModel
-        .getAnimate()
-        .observe(getViewLifecycleOwner(), this::displayAnimate);
+        .getAnime()
+        .observe(getViewLifecycleOwner(), this::displayAnime);
   }
 
   @Override
@@ -78,12 +78,12 @@ public class VideoFragment extends Fragment implements MenuProvider {
     return handled;
   }
 
-  private void displayAnimate(Animate animate) {
+  private void displayAnime(Anime anime) {
     //noinspection DataFlowIssue
     ((AppCompatActivity) requireActivity())
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok
-        .setTitle(animate.getTitle());
-    binding.content.loadUrl(animate.getUrl().toString());
+        .setTitle(anime.getTitle());
+    binding.content.loadUrl(anime.getUrl().toString());
   }
 
   private class Client extends WebViewClient {

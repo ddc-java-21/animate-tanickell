@@ -9,48 +9,48 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import edu.cnm.deepdive.animate.model.Animate;
-import edu.cnm.deepdive.animate.service.AnimateService;
+import edu.cnm.deepdive.animate.model.Anime;
+import edu.cnm.deepdive.animate.service.AnimeService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
-public class AnimateViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
+public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
-  private static final String TAG = AnimateViewModel.class.getSimpleName();
+  private static final String TAG = AnimeViewModel.class.getSimpleName();
 
-  private final MutableLiveData<Animate> animate;
-  private final MutableLiveData<List<Animate>> animates;
+  private final MutableLiveData<Anime> anime;
+  private final MutableLiveData<List<Anime>> animes;
   private final MutableLiveData<Uri> downloadedImage;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
-  private final AnimateService animateService;
+  private final AnimeService animeService;
 
-  public AnimateViewModel(@NonNull Application application) {
+  public AnimeViewModel(@NonNull Application application) {
     super(application);
-    animate = new MutableLiveData<>();
-    animates = new MutableLiveData<>();
+    anime = new MutableLiveData<>();
+    animes = new MutableLiveData<>();
     downloadedImage = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
-    animateService = AnimateService.getInstance(); // gets reference to the one AnimateService instance that exists
+    animeService = AnimeService.getInstance(); // gets reference to the one AnimeService instance that exists
     LocalDate today = LocalDate.now();
     LocalDate lastMonth = today.minusMonths(1);
     fetch(lastMonth, today);
   }
 
-  public LiveData<Animate> getAnimate() {
-    return animate;
+  public LiveData<Anime> getAnime() {
+    return anime;
   }
 
-  public void setAnimate(Animate animate) {
-    this.animate.setValue(animate);
+  public void setAnime(Anime anime) {
+    this.anime.setValue(anime);
   }
 
-  public LiveData<List<Animate>> getAnimates() {
-    return animates;
+  public LiveData<List<Anime>> getAnimes() {
+    return animes;
   }
 
   public LiveData<Uri> getDownloadedImage() {
@@ -67,10 +67,10 @@ public class AnimateViewModel extends AndroidViewModel implements DefaultLifecyc
 
   public void fetch(LocalDate date) {
     throwable.setValue(null); // monitoring no object right now // we're sure we're on the UI thread
-    animateService
-        .getAnimate(date)
+    animeService
+        .getAnime(date)
         .subscribe( // consumers:
-            animate::postValue, // invoked on thread other than UI thread
+            anime::postValue, // invoked on thread other than UI thread
             this::postThrowable, // downstream
             pending
         );
@@ -78,10 +78,10 @@ public class AnimateViewModel extends AndroidViewModel implements DefaultLifecyc
 
   public void fetch(LocalDate startDate, LocalDate endDate) {
     throwable.setValue(null);
-    animateService
-        .getAnimates(startDate, endDate)
+    animeService
+        .getAnimes(startDate, endDate)
         .subscribe(
-            animates::postValue,
+            animes::postValue,
             this::postThrowable,
             pending
         );
@@ -90,7 +90,7 @@ public class AnimateViewModel extends AndroidViewModel implements DefaultLifecyc
   public void downloadImage(String title, URL url) {
     throwable.setValue(null);
     clearDownloadedImage();
-    animateService
+    animeService
         .downloadImage(title, url)
         .subscribe(
             downloadedImage::postValue,
