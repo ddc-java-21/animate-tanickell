@@ -104,9 +104,10 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.retrofit.adapter.rx.java)
 
-    // Room libraries
+    // Room annotation processor, runtime library, and ReactiveX integration
     implementation(libs.room.runtime)
-    implementation(libs.room.compiler)
+    implementation(libs.activity)
+    annotationProcessor(libs.room.compiler)
     implementation(libs.room.rx.java)
 
     // Picasso library

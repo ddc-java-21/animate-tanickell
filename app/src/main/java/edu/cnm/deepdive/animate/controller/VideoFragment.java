@@ -22,8 +22,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentVideoBinding;
-import edu.cnm.deepdive.animate.model.Apod;
-import edu.cnm.deepdive.animate.viewmodel.ApodViewModel;
+import edu.cnm.deepdive.animate.model.Animate;
+import edu.cnm.deepdive.animate.viewmodel.AnimateViewModel;
 
 public class VideoFragment extends Fragment implements MenuProvider {
 
@@ -50,10 +50,10 @@ public class VideoFragment extends Fragment implements MenuProvider {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    ApodViewModel viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
+    AnimateViewModel viewModel = new ViewModelProvider(requireActivity()).get(AnimateViewModel.class);
     viewModel
-        .getApod()
-        .observe(getViewLifecycleOwner(), this::displayApod);
+        .getAnimate()
+        .observe(getViewLifecycleOwner(), this::displayAnimate);
   }
 
   @Override
@@ -78,12 +78,12 @@ public class VideoFragment extends Fragment implements MenuProvider {
     return handled;
   }
 
-  private void displayApod(Apod apod) {
+  private void displayAnimate(Animate animate) {
     //noinspection DataFlowIssue
     ((AppCompatActivity) requireActivity())
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok
-        .setTitle(apod.getTitle());
-    binding.content.loadUrl(apod.getUrl().toString());
+        .setTitle(animate.getTitle());
+    binding.content.loadUrl(animate.getUrl().toString());
   }
 
   private class Client extends WebViewClient {

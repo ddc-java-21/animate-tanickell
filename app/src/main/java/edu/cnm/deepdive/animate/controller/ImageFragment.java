@@ -30,8 +30,8 @@ import com.squareup.picasso.Picasso.LoadedFrom;
 import com.squareup.picasso.Target;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentImageBinding;
-import edu.cnm.deepdive.animate.model.Apod;
-import edu.cnm.deepdive.animate.viewmodel.ApodViewModel;
+import edu.cnm.deepdive.animate.model.Animate;
+import edu.cnm.deepdive.animate.viewmodel.AnimateViewModel;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
@@ -39,8 +39,8 @@ import java.net.URL;
 public class ImageFragment extends Fragment implements MenuProvider {
 
   private FragmentImageBinding binding;
-  private Apod apod;
-  private ApodViewModel viewModel;
+  private Animate animate;
+  private AnimateViewModel viewModel;
 
   @Nullable
   @Override
@@ -55,10 +55,10 @@ public class ImageFragment extends Fragment implements MenuProvider {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     // DONE: 6/4/25 Create a viewmodel provider, and use it to get a reference to viewmodel instance.
-    viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(AnimateViewModel.class);
     viewModel
-        .getApod()
-        .observe(getViewLifecycleOwner(), this::displayApod);
+        .getAnimate()
+        .observe(getViewLifecycleOwner(), this::displayAnimate);
     viewModel
         .getDownloadedImage()
         .observe(getViewLifecycleOwner(), (uri) -> {
@@ -95,20 +95,20 @@ public class ImageFragment extends Fragment implements MenuProvider {
           .navigate(ImageFragmentDirections.displayInfo());
     } else if (itemId == R.id.download_image) {
       handled = true; // again, otherwise it'll keep asking other menu providers
-      URL hdurl = apod.getHdurl();
-      viewModel.downloadImage(apod.getTitle(), (hdurl != null) ? hdurl : apod.getUrl());
+      URL hdurl = animate.getHdurl();
+      viewModel.downloadImage(animate.getTitle(), (hdurl != null) ? hdurl : animate.getUrl());
     }
     return handled;
   }
 
-  private void displayApod(Apod apod) {
-    this.apod = apod;
+  private void displayAnimate(Animate animate) {
+    this.animate = animate;
     //noinspection DataFlowIssue
     ((AppCompatActivity) requireActivity())
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok
-        .setTitle(apod.getTitle());
+        .setTitle(animate.getTitle());
     Picasso.get()
-        .load(Uri.parse(apod.getUrl().toString()))
+        .load(Uri.parse(animate.getUrl().toString()))
         .into(new ImageFinalizer());
   }
 
@@ -134,18 +134,18 @@ public class ImageFragment extends Fragment implements MenuProvider {
 
   private class GalleryImageFinalizer implements Target {
 
-    private final Apod apod;
+    private final Animate animate;
 
-    private GalleryImageFinalizer(Apod apod) {
-      this.apod = apod;
+    private GalleryImageFinalizer(Animate animate) {
+      this.animate = animate;
     }
 
 
     @Override
     public void onBitmapLoaded(Bitmap bitmap, LoadedFrom loadedFrom) {
       ContentValues values = new ContentValues();
-      values.put(MediaColumns.DISPLAY_NAME, apod.getTitle().strip());
-      values.put(MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/APOD");
+      values.put(MediaColumns.DISPLAY_NAME, animate.getTitle().strip());
+      values.put(MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/ANIMATE");
       values.put(MediaColumns.IS_PENDING, 1);
 
       ContentResolver resolver = requireContext().getContentResolver();

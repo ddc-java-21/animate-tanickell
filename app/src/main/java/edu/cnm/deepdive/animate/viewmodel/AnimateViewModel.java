@@ -9,48 +9,48 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import edu.cnm.deepdive.animate.model.Apod;
-import edu.cnm.deepdive.animate.service.ApodService;
+import edu.cnm.deepdive.animate.model.Animate;
+import edu.cnm.deepdive.animate.service.AnimateService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
-public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
+public class AnimateViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
-  private static final String TAG = ApodViewModel.class.getSimpleName();
+  private static final String TAG = AnimateViewModel.class.getSimpleName();
 
-  private final MutableLiveData<Apod> apod;
-  private final MutableLiveData<List<Apod>> apods;
+  private final MutableLiveData<Animate> animate;
+  private final MutableLiveData<List<Animate>> animates;
   private final MutableLiveData<Uri> downloadedImage;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
-  private final ApodService apodService;
+  private final AnimateService animateService;
 
-  public ApodViewModel(@NonNull Application application) {
+  public AnimateViewModel(@NonNull Application application) {
     super(application);
-    apod = new MutableLiveData<>();
-    apods = new MutableLiveData<>();
+    animate = new MutableLiveData<>();
+    animates = new MutableLiveData<>();
     downloadedImage = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
-    apodService = ApodService.getInstance(); // gets reference to the one ApodService instance that exists
+    animateService = AnimateService.getInstance(); // gets reference to the one AnimateService instance that exists
     LocalDate today = LocalDate.now();
     LocalDate lastMonth = today.minusMonths(1);
     fetch(lastMonth, today);
   }
 
-  public LiveData<Apod> getApod() {
-    return apod;
+  public LiveData<Animate> getAnimate() {
+    return animate;
   }
 
-  public void setApod(Apod apod) {
-    this.apod.setValue(apod);
+  public void setAnimate(Animate animate) {
+    this.animate.setValue(animate);
   }
 
-  public LiveData<List<Apod>> getApods() {
-    return apods;
+  public LiveData<List<Animate>> getAnimates() {
+    return animates;
   }
 
   public LiveData<Uri> getDownloadedImage() {
@@ -67,10 +67,10 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
 
   public void fetch(LocalDate date) {
     throwable.setValue(null); // monitoring no object right now // we're sure we're on the UI thread
-    apodService
-        .getApod(date)
+    animateService
+        .getAnimate(date)
         .subscribe( // consumers:
-            apod::postValue, // invoked on thread other than UI thread
+            animate::postValue, // invoked on thread other than UI thread
             this::postThrowable, // downstream
             pending
         );
@@ -78,10 +78,10 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
 
   public void fetch(LocalDate startDate, LocalDate endDate) {
     throwable.setValue(null);
-    apodService
-        .getApods(startDate, endDate)
+    animateService
+        .getAnimates(startDate, endDate)
         .subscribe(
-            apods::postValue,
+            animates::postValue,
             this::postThrowable,
             pending
         );
@@ -90,7 +90,7 @@ public class ApodViewModel extends AndroidViewModel implements DefaultLifecycleO
   public void downloadImage(String title, URL url) {
     throwable.setValue(null);
     clearDownloadedImage();
-    apodService
+    animateService
         .downloadImage(title, url)
         .subscribe(
             downloadedImage::postValue,

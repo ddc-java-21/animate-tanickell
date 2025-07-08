@@ -12,16 +12,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.google.android.material.snackbar.Snackbar;
 import edu.cnm.deepdive.animate.R;
-import edu.cnm.deepdive.animate.adapter.ApodAdapter;
+import edu.cnm.deepdive.animate.adapter.AnimateAdapter;
 import edu.cnm.deepdive.animate.databinding.FragmentListBinding;
-import edu.cnm.deepdive.animate.model.Apod;
-import edu.cnm.deepdive.animate.viewmodel.ApodViewModel;
+import edu.cnm.deepdive.animate.model.Animate;
+import edu.cnm.deepdive.animate.viewmodel.AnimateViewModel;
 
 public class ListFragment extends Fragment {
 
   private static final String TAG = ListFragment.class.getSimpleName();
   private FragmentListBinding binding;
-  private ApodViewModel viewModel;
+  private AnimateViewModel viewModel;
 
   @Nullable
   @Override
@@ -35,16 +35,16 @@ public class ListFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    viewModel = new ViewModelProvider(requireActivity()).get(ApodViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(AnimateViewModel.class);
     viewModel // gives a reference to that inflated layout (recyclerview that was instantiated on inflation)
-        .getApods()
+        .getAnimates()
         .observe(getViewLifecycleOwner(),
-            (apods) -> {
-              ApodAdapter adapter = new ApodAdapter(requireContext(), apods,
-                  (apod, pos) -> navigateToMedia(apod), // listener for clicking on a thumbnail
-                  (apod, pos) -> navigateToInfo(apod) // listener for clicking on info
+            (animates) -> {
+              AnimateAdapter adapter = new AnimateAdapter(requireContext(), animates,
+                  (animate, pos) -> navigateToMedia(animate), // listener for clicking on a thumbnail
+                  (animate, pos) -> navigateToInfo(animate) // listener for clicking on info
               );
-              binding.apods.setAdapter(adapter);
+              binding.animates.setAdapter(adapter);
             });
   }
 
@@ -54,22 +54,22 @@ public class ListFragment extends Fragment {
     super.onDestroyView();
   }
 
-  private void navigateToInfo(Apod apod) {
-    viewModel.setApod(apod);
+  private void navigateToInfo(Animate animate) {
+    viewModel.setAnimate(animate);
     Navigation.findNavController(binding.getRoot())
         .navigate(ListFragmentDirections.displayInfo());
   }
 
-  private void navigateToMedia(Apod apod) {
-    if (apod.getMediaType() == null) {
+  private void navigateToMedia(Animate animate) {
+    if (animate.getMediaType() == null) {
       Snackbar.make(
               binding.getRoot(), R.string.no_media_display, Snackbar.LENGTH_LONG)
           .show();
     } else {
-      viewModel.setApod(apod);
+      viewModel.setAnimate(animate);
       NavController navController = Navigation.findNavController(
           binding.getRoot());
-      switch (apod.getMediaType()) {
+      switch (animate.getMediaType()) {
         case IMAGE -> navController.navigate(ListFragmentDirections.displayImage());
         case VIDEO -> navController.navigate(ListFragmentDirections.displayVideo());
       }

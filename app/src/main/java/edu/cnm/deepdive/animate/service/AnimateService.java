@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.MediaColumns;
 import edu.cnm.deepdive.animate.R;
-import edu.cnm.deepdive.animate.model.Apod;
+import edu.cnm.deepdive.animate.model.Animate;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;
@@ -24,33 +24,33 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-public class ApodService {
+public class AnimateService {
 
   private static final String CONTENT_TYPE_HEADER = "Content-Type";
   private static final int BUFFER_SIZE = 16_384;
   @SuppressLint("StaticFieldLeak")
   private static Context context;
 
-  private final ApodProxy proxy;
+  private final AnimateProxy proxy;
   private final String apiKey;
   private final Scheduler scheduler;
 
-  private ApodService() throws IOException {
-    proxy = ApodProxy.getInstance();
+  private AnimateService() throws IOException {
+    proxy = AnimateProxy.getInstance();
     apiKey = context.getString(R.string.api_key);
     scheduler = Schedulers.io();
   }
 
   public static void setContext(Context context) {
-    ApodService.context = context;
+    AnimateService.context = context;
   }
 
-  public Single<Apod> getApod(LocalDate date) {
+  public Single<Animate> getAnimate(LocalDate date) {
     return proxy
         .get(date, apiKey)
-        .subscribeOn(scheduler); // returning instead of an apod object, the piece of machinery that will fetch the Apod and pass it downstream WHEN TURNED ON
+        .subscribeOn(scheduler); // returning instead of an animate object, the piece of machinery that will fetch the Animate and pass it downstream WHEN TURNED ON
   }
-  public Single<List<Apod>> getApods(LocalDate startDate, LocalDate endDate) {
+  public Single<List<Animate>> getAnimates(LocalDate startDate, LocalDate endDate) {
     return proxy
         .get(startDate, endDate, apiKey)
         .subscribeOn(scheduler)
@@ -75,7 +75,7 @@ public class ApodService {
         .subscribeOn(scheduler);
   }
 
-  public static ApodService getInstance() {
+  public static AnimateService getInstance() {
     return Holder.INSTANCE;
   }
 
@@ -107,7 +107,7 @@ public class ApodService {
     ContentValues values = new ContentValues();
     values.put(MediaColumns.DISPLAY_NAME, title);
     values.put(MediaColumns.RELATIVE_PATH,
-        context.getString(R.string.apod_directory_format, Environment.DIRECTORY_PICTURES));
+        context.getString(R.string.animate_directory_format, Environment.DIRECTORY_PICTURES));
     values.put(MediaColumns.IS_PENDING, 1);
     String mimeType = response.headers().get(CONTENT_TYPE_HEADER);
     if (mimeType != null) {
@@ -119,15 +119,14 @@ public class ApodService {
   private static class Holder {
 
     @SuppressLint("StaticFieldLeak")
-    private static final ApodService INSTANCE;
+    private static final AnimateService INSTANCE;
 
     static {
       try {
-        INSTANCE = new ApodService();
+        INSTANCE = new AnimateService();
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
-
 
     }
 

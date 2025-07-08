@@ -10,30 +10,30 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.animate.R;
-import edu.cnm.deepdive.animate.databinding.ItemApodBinding;
-import edu.cnm.deepdive.animate.model.Apod;
-import edu.cnm.deepdive.animate.model.Apod.MediaType;
+import edu.cnm.deepdive.animate.databinding.ItemAnimateBinding;
+import edu.cnm.deepdive.animate.model.Animate;
+import edu.cnm.deepdive.animate.model.Animate.MediaType;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ApodAdapter extends Adapter<ViewHolder> {
+public class AnimateAdapter extends Adapter<ViewHolder> {
 
   private static final Pattern YOUTUBE_URL =
       Pattern.compile("^(?:https?://)?(?:www\\.)?(?:youtube\\.com/(?:watch\\?v=|embed/|v/)|youtu\\.be/)([a-zA-Z0-9_-]{11})(?:\\S+)?$");
   private static final String YOUTUBE_THUMBNAIL_URL = "https://img.youtube.com/vi/%s/0.jpg";
-  private final List<Apod> apods;
-  private final OnApodClickListener onThumbnailClickListener;
-  private final OnApodClickListener onInfoClickListener;
+  private final List<Animate> animates;
+  private final OnAnimateClickListener onThumbnailClickListener;
+  private final OnAnimateClickListener onInfoClickListener;
   private final LayoutInflater inflater;
   private final DateTimeFormatter formatter;
 
-  public ApodAdapter(@NonNull Context context, @NonNull List<Apod> apods,
-      @NonNull OnApodClickListener onThumbnailClickListener,
-      @NonNull OnApodClickListener onInfoClickListener) {
-    this.apods = apods;
+  public AnimateAdapter(@NonNull Context context, @NonNull List<Animate> animates,
+      @NonNull OnAnimateClickListener onThumbnailClickListener,
+      @NonNull OnAnimateClickListener onInfoClickListener) {
+    this.animates = animates;
     inflater = LayoutInflater.from(context);
     this.onThumbnailClickListener = onThumbnailClickListener;
     this.onInfoClickListener = onInfoClickListener;
@@ -43,43 +43,43 @@ public class ApodAdapter extends Adapter<ViewHolder> {
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int itemType) {
-    ItemApodBinding binding = ItemApodBinding.inflate(inflater, viewGroup, false); // false means we don't attach it to that viewGroup, that's the job of the recyclerview, not the adapter's
+    ItemAnimateBinding binding = ItemAnimateBinding.inflate(inflater, viewGroup, false); // false means we don't attach it to that viewGroup, that's the job of the recyclerview, not the adapter's
     return new Holder(binding);
   }
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-    ((Holder) viewHolder).bind(position, apods.get(position));
+    ((Holder) viewHolder).bind(position, animates.get(position));
   }
 
   @Override
   public int getItemCount() {
-    return apods.size();
+    return animates.size();
   }
 
   private class Holder extends ViewHolder { // to see formatter, we can either remove static (bad), or pass into constructor
 
-    private final ItemApodBinding binding;
+    private final ItemAnimateBinding binding;
 
-    Holder(@NonNull ItemApodBinding binding) {
+    Holder(@NonNull ItemAnimateBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }
 
-    void bind(int position, Apod apod) {
-      binding.title.setText(apod.getTitle().strip());
-      binding.date.setText(formatter.format(apod.getDate()));
+    void bind(int position, Animate animate) {
+      binding.title.setText(animate.getTitle().strip());
+      binding.date.setText(formatter.format(animate.getDate()));
       binding.mediaTypeThumbnail.setVisibility(View.VISIBLE);
-      binding.thumbnail.setContentDescription(apod.getTitle()); // DONE: 6/4/25 Include more info.
+      binding.thumbnail.setContentDescription(animate.getTitle()); // DONE: 6/4/25 Include more info.
       binding.thumbnail.setOnClickListener(
-          (v) -> onThumbnailClickListener.onApodClick(apod, position)); // just receives a view object
-      binding.info.setOnClickListener((v) -> onInfoClickListener.onApodClick(apod, position));
-      MediaType mediaType = apod.getMediaType();
+          (v) -> onThumbnailClickListener.onAnimateClick(animate, position)); // just receives a view object
+      binding.info.setOnClickListener((v) -> onInfoClickListener.onAnimateClick(animate, position));
+      MediaType mediaType = animate.getMediaType();
       if (mediaType == MediaType.IMAGE) {
-        loadThumbnail(apod.getUrl().toString());
+        loadThumbnail(animate.getUrl().toString());
         binding.mediaTypeThumbnail.setImageResource(R.drawable.photo_camera);
       } else if (mediaType == MediaType.VIDEO) {
-        Matcher matcher = YOUTUBE_URL.matcher(apod.getUrl().toString());
+        Matcher matcher = YOUTUBE_URL.matcher(animate.getUrl().toString());
         if (matcher.matches()) {
           String videoId = matcher.group(1);
           String thumbnailUrl = String.format(YOUTUBE_THUMBNAIL_URL, videoId); // String thumbnailUrl = YOUTUBE_THUMBNAIL_URL.formatted(videoId);
@@ -96,18 +96,18 @@ public class ApodAdapter extends Adapter<ViewHolder> {
       }
     }
 
-    private void loadThumbnail(String apod) {
+    private void loadThumbnail(String animate) {
       Picasso.get()
-          .load(Uri.parse(apod))
+          .load(Uri.parse(animate))
           .into(binding.thumbnail);
     }
 
   }
 
   @FunctionalInterface
-  public interface OnApodClickListener {
+  public interface OnAnimateClickListener {
 
-    void onApodClick(Apod apod, int position);
+    void onAnimateClick(Animate animate, int position);
 
   }
 
