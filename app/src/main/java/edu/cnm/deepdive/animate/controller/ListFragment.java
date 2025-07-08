@@ -1,24 +1,21 @@
-package edu.cnm.deepdive.apod.controller;
+package edu.cnm.deepdive.animate.controller;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.google.android.material.snackbar.Snackbar;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.adapter.ApodAdapter;
-import edu.cnm.deepdive.apod.databinding.FragmentListBinding;
-import edu.cnm.deepdive.apod.model.Apod;
-import edu.cnm.deepdive.apod.viewmodel.ApodViewModel;
-import java.util.List;
+import edu.cnm.deepdive.animate.R;
+import edu.cnm.deepdive.animate.adapter.ApodAdapter;
+import edu.cnm.deepdive.animate.databinding.FragmentListBinding;
+import edu.cnm.deepdive.animate.model.Apod;
+import edu.cnm.deepdive.animate.viewmodel.ApodViewModel;
 
 public class ListFragment extends Fragment {
 

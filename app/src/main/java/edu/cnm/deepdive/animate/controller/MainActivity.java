@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.controller;
+package edu.cnm.deepdive.animate.controller;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,8 +6,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.databinding.ActivityMainBinding;
+import edu.cnm.deepdive.animate.R;
+import edu.cnm.deepdive.animate.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 

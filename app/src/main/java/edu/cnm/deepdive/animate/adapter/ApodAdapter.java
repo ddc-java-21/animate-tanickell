@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.apod.adapter;
+package edu.cnm.deepdive.animate.adapter;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,10 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.squareup.picasso.Picasso;
-import edu.cnm.deepdive.apod.R;
-import edu.cnm.deepdive.apod.databinding.ItemApodBinding;
-import edu.cnm.deepdive.apod.model.Apod;
-import edu.cnm.deepdive.apod.model.Apod.MediaType;
+import edu.cnm.deepdive.animate.R;
+import edu.cnm.deepdive.animate.databinding.ItemApodBinding;
+import edu.cnm.deepdive.animate.model.Apod;
+import edu.cnm.deepdive.animate.model.Apod.MediaType;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;

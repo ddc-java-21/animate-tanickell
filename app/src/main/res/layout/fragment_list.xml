@@ -6,9 +6,10 @@
   android:id="@+id/main"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:paddingTop="?attr/actionBarSize"
   tools:context=".controller.MainActivity">
-  
+
+<!--  android:paddingTop="?attr/actionBarSize"-->
+
   <ImageView
     android:id="@+id/thumbnail_header"
     android:layout_width="0dp"

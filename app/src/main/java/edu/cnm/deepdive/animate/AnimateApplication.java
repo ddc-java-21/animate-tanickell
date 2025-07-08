@@ -1,11 +1,13 @@
-package edu.cnm.deepdive.apod;
+package edu.cnm.deepdive.animate;
 
 import android.app.Application;
 import com.squareup.picasso.Picasso;
-import edu.cnm.deepdive.apod.service.ApodProxy;
-import edu.cnm.deepdive.apod.service.ApodService;
+import dagger.hilt.android.HiltAndroidApp;
+import edu.cnm.deepdive.animate.service.ApodProxy;
+import edu.cnm.deepdive.animate.service.ApodService;
 
-public class ApodApplication extends Application {
+@HiltAndroidApp
+public class AnimateApplication extends Application {
 
   @Override
   public void onCreate() {

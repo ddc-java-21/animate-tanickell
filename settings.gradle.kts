@@ -32,6 +32,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "nasa-apod"
+rootProject.name = "animate"
 
 include(":app")
