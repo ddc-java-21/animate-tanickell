@@ -76,7 +76,7 @@ public interface AnimeDao {
   @Delete
   Single<Integer> delete(Anime anime);
 
-  @Query("DELETE FROM anime")// truncate
+  @Query("DELETE FROM anime") // truncate
   Single<Integer> deleteAll();
 
   @Query("SELECT * FROM anime WHERE anime_id = :id") // most queries will be LiveData, sometimes reactivex (FindByID in Spring repository)
