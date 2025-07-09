@@ -7,8 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
-import edu.cnm.deepdive.animate.model.Anime;
-import edu.cnm.deepdive.animate.model.Anime.MediaType;
+import edu.cnm.deepdive.animate.model.entity.Anime;
 import io.reactivex.rxjava3.core.Single;
 import java.util.Collection;
 import java.util.Iterator;
@@ -19,15 +18,6 @@ public interface AnimeDao {
 
   @Insert
   Single<Long> insert(Anime anime); // int or long doesn't allow for running on the same thread --> machinery to pass along Long primary key
-
-//  List<Long> insert(List<Anime> animes); // can't invoke from the UI thread
-//  void insert(List<Anime> animes);
-//  Single<List<Long>> insert(List<Anime> animes);
-//  Completable insert(List<Anime> animes);
-
-//  @Insert
-//  Single<List<Long>> insert(Anime[] animes);
-//
 
   default Single<Anime> insertAndRefresh(Anime anime) {
     return insert(anime)
@@ -51,19 +41,6 @@ public interface AnimeDao {
         });
   }
 
-//  @Insert
-//  Single<List<Long>> insert(Anime... animes);
-
-  // can do the same thing for this one
-
-  // if we need to do any updates (e.g., I need to update a note that's already been saved to the db)
-
-
-//  int update(Anime anime); // returns number of records modified directly or indirectly as a result of this update (by cascade)
-//  void update(Anime anime);
-//  Single<Integer> update(Anime anime);
-//  Completable update(Anime anime);
-
   @Insert
   Single<List<Long>> insert(Anime... animes);
 
@@ -82,7 +59,29 @@ public interface AnimeDao {
   @Query("SELECT * FROM anime WHERE anime_id = :id") // most queries will be LiveData, sometimes reactivex (FindByID in Spring repository)
   LiveData<Anime> get(long id); // returning a list here makes no sense
 
-  @Query("SELECT * FROM anime WHERE media_type = :mediaType ORDER BY date_created")
-  LiveData<List<Anime>> get(MediaType mediaType);
+  // Get animes associated with a certain tag id:
+  @Query("SELECT a.* FROM anime AS a "
+      + "JOIN anime_tag AS at ON at.anime_id = a.anime_id "
+      + "JOIN tag AS t ON t.tag_id = at.tag_id "
+      + "WHERE t.tag_id = :tagId "
+      + "ORDER BY at.date_tagged DESC")
+  LiveData<List<Anime>> getAnimesByTagOrderByDateTaggedDesc(long tagId);
+
+  // Get animes associated with a certain user id via favorites (i.e., a user's favorites):
+  @Query("SELECT a.* FROM anime AS a "
+      + "JOIN favorite AS f ON f.anime_id = a.anime_id "
+      + "JOIN user AS u ON u.user_id = f.user_id "
+      + "WHERE u.user_id = :userId "
+      + "ORDER BY f.date_favorited DESC")
+  LiveData<List<Anime>> getAnimesByUserOrderByDateFavoritedDesc(long userId);
+
+  @Query("SELECT * FROM anime WHERE genre = :genre ORDER BY release_date DESC")
+  LiveData<List<Anime>> getAnimesByGenreOrderByReleaseDateDesc(String genre);
+
+  @Query("SELECT * FROM anime WHERE genre = :genre ORDER BY score DESC")
+  LiveData<List<Anime>> getAnimesByGenreOrderByScoreDesc(String genre);
+
+  @Query ("SELECT * FROM anime ORDER BY release_date DESC")
+  LiveData<List<Anime>> getAnimesOrderByReleaseDateDesc(long releaseDate);
 
 }

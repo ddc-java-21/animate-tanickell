@@ -2,14 +2,13 @@
 
 <!-- Complete this checklist for each entity -->
 
-## Entity name: FavoriteTag
+## Entity name:Tag
 
 ## Attributes
 
-- favorite_tag_id: long (PK)
-- favorite_id: long (FK1)
-- name: String
-- tagged: Instant
+- tag_id: long (PK)
+- name: String (UK1)
+- created: Instant
 
 ## Data-access object (DAO) operations
 
@@ -42,11 +41,15 @@ Your DAO will also need to declare methods that read data from the database, pro
 
 If you think you will have multiple queries that return a single instance, and/or multiple queries that return multiple instances, copy and pase the bullet items below as many times as necessary.
 
-* [X] Return a single instance, selected by favorite_tag_id.
+* [X] Return a single instance, selected by tag_id.
 
-* [X] Return multiple instances, selected by favorite_id, and orded by tagged DESC.
+* [X] Return multiple instances, selected by user_profile_id, and ordered by tagged DESC.
 
-* [X] Return multiple instances, selected by favorite_id, and orded by name.
+* [X] Return multiple instances, selected by user_profile_id, and ordered by name.
+
+* [X] Return multiple instances, selected by anime_id, and ordered by tagged DESC.
+
+* [X] Return multiple instances, selected by anime_id, and ordered by name.
 
 
 * [ ] Return a single instance, selected by {_replace this the name(s) of the attribute(s) that will be used to filter for a single instance of the entity_}.

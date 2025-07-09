@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.adapter.AnimeAdapter;
 import edu.cnm.deepdive.animate.databinding.FragmentListBinding;
-import edu.cnm.deepdive.animate.model.Anime;
+import edu.cnm.deepdive.animate.model.entity.Anime;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 
 public class ListFragment extends Fragment {

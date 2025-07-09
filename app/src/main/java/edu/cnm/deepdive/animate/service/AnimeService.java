@@ -9,7 +9,7 @@ import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.MediaColumns;
 import edu.cnm.deepdive.animate.R;
-import edu.cnm.deepdive.animate.model.Anime;
+import edu.cnm.deepdive.animate.model.entity.Anime;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;

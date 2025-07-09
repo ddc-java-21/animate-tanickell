@@ -30,7 +30,7 @@ import com.squareup.picasso.Picasso.LoadedFrom;
 import com.squareup.picasso.Target;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentImageBinding;
-import edu.cnm.deepdive.animate.model.Anime;
+import edu.cnm.deepdive.animate.model.entity.Anime;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -95,8 +95,8 @@ public class ImageFragment extends Fragment implements MenuProvider {
           .navigate(ImageFragmentDirections.displayInfo());
     } else if (itemId == R.id.download_image) {
       handled = true; // again, otherwise it'll keep asking other menu providers
-      URL hdurl = anime.getHdurl();
-      viewModel.downloadImage(anime.getTitle(), (hdurl != null) ? hdurl : anime.getUrl());
+      URL hdurl = anime.getTrailerUrl();
+      viewModel.downloadImage(anime.getTitle(), (hdurl != null) ? hdurl : anime.getPosterUrl());
     }
     return handled;
   }
@@ -108,7 +108,7 @@ public class ImageFragment extends Fragment implements MenuProvider {
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok
         .setTitle(anime.getTitle());
     Picasso.get()
-        .load(Uri.parse(anime.getUrl().toString()))
+        .load(Uri.parse(anime.getPosterUrl().toString()))
         .into(new ImageFinalizer());
   }
 

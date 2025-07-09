@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.ItemAnimeBinding;
-import edu.cnm.deepdive.animate.model.Anime;
-import edu.cnm.deepdive.animate.model.Anime.MediaType;
+import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.entity.Anime.MediaType;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
@@ -68,7 +68,7 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
 
     void bind(int position, Anime anime) {
       binding.title.setText(anime.getTitle().strip());
-      binding.date.setText(formatter.format(anime.getDate()));
+      binding.date.setText(formatter.format(anime.getRelease_date()));
       binding.mediaTypeThumbnail.setVisibility(View.VISIBLE);
       binding.thumbnail.setContentDescription(anime.getTitle()); // DONE: 6/4/25 Include more info.
       binding.thumbnail.setOnClickListener(
@@ -76,10 +76,10 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
       binding.info.setOnClickListener((v) -> onInfoClickListener.onAnimeClick(anime, position));
       MediaType mediaType = anime.getMediaType();
       if (mediaType == MediaType.IMAGE) {
-        loadThumbnail(anime.getUrl().toString());
+        loadThumbnail(anime.getPosterUrl().toString());
         binding.mediaTypeThumbnail.setImageResource(R.drawable.photo_camera);
       } else if (mediaType == MediaType.VIDEO) {
-        Matcher matcher = YOUTUBE_URL.matcher(anime.getUrl().toString());
+        Matcher matcher = YOUTUBE_URL.matcher(anime.getPosterUrl().toString());
         if (matcher.matches()) {
           String videoId = matcher.group(1);
           String thumbnailUrl = String.format(YOUTUBE_THUMBNAIL_URL, videoId); // String thumbnailUrl = YOUTUBE_THUMBNAIL_URL.formatted(videoId);

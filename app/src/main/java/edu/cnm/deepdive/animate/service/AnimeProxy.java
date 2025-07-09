@@ -8,7 +8,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import edu.cnm.deepdive.animate.R;
-import edu.cnm.deepdive.animate.model.Anime;
+import edu.cnm.deepdive.animate.model.entity.Anime;
 import io.reactivex.rxjava3.core.Single;
 import java.lang.reflect.Type;
 import java.time.LocalDate;

@@ -10,19 +10,15 @@
 - external_key: UUID (UK1)
 - title: String
 - genre: String
-- studio: String
-- director: String
-- composer: String
-- description: String
-- length: int
-- episodes: int
-- release_date: Instant
-- release_year: Instant
-- url: URL
-- hdurl: URL
-- mediatype: String
 - rating: String
-- score: float    
+- score: float
+- description: String
+- bannerUrl: URL
+- trailerUrl: URL
+- release_date: Instant
+- created: Instant
+- modified: Instant
+
 
 ## Data-access object (DAO) operations
 

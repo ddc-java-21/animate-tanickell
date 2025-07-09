@@ -9,7 +9,7 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import edu.cnm.deepdive.animate.model.Anime;
+import edu.cnm.deepdive.animate.model.entity.Anime;
 import edu.cnm.deepdive.animate.service.AnimeService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.net.URL;

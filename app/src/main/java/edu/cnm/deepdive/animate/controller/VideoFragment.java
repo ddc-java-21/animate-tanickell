@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentVideoBinding;
-import edu.cnm.deepdive.animate.model.Anime;
+import edu.cnm.deepdive.animate.model.entity.Anime;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 
 public class VideoFragment extends Fragment implements MenuProvider {
@@ -83,7 +83,7 @@ public class VideoFragment extends Fragment implements MenuProvider {
     ((AppCompatActivity) requireActivity())
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok
         .setTitle(anime.getTitle());
-    binding.content.loadUrl(anime.getUrl().toString());
+    binding.content.loadUrl(anime.getPosterUrl().toString());
   }
 
   private class Client extends WebViewClient {
