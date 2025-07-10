@@ -22,6 +22,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.hilt)
     alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.schema.parser)
     alias(libs.plugins.junit)
 }
 
@@ -45,6 +46,18 @@ android {
         resValue("string", "app_name", project.property("appName") as String)
         resValue("string", "base_url", getLocalProperty("base_url"))
         resValue("string", "api_key", getLocalProperty("api_key"))
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments(
+                    mapOf(
+                        "room.schemaLocation" to "$projectDir/schemas",
+                        "room.incremental" to "true",
+                        "room.expandProjection" to "true"
+                    )
+                )
+            }
+        }
 
     }
 
@@ -146,6 +159,11 @@ dependencies {
         }
     }
 
+}
+
+roomDdl {
+    source.set(project.file("$projectDir/schemas/edu.cnm.deepdive.animate.service.AnimateDatabase/1.json"))
+    destination.set(project.file("$projectDir/../docs/sql/ddl.sql"))
 }
 
 val documentationUmbrella = tasks.register("javadoc") {

@@ -135,6 +135,6 @@ public interface AnimeDao {
   LiveData<List<Anime>> getAnimesByGenreOrderByScoreDesc(String genre);
 
   @Query ("SELECT * FROM anime ORDER BY release_date DESC")
-  LiveData<List<Anime>> getAnimesOrderByReleaseDateDesc(long releaseDate);
+  LiveData<List<Anime>> getAnimesOrderByReleaseDateDesc();
 
 }

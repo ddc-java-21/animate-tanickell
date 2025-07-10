@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.ItemAnimeBinding;
 import edu.cnm.deepdive.animate.model.entity.Anime;
+
 import edu.cnm.deepdive.animate.model.entity.Anime.MediaType;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -68,7 +69,7 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
 
     void bind(int position, Anime anime) {
       binding.title.setText(anime.getTitle().strip());
-      binding.date.setText(formatter.format(anime.getRelease_date()));
+      binding.date.setText(formatter.format(anime.getReleaseDate()));
       binding.mediaTypeThumbnail.setVisibility(View.VISIBLE);
       binding.thumbnail.setContentDescription(anime.getTitle()); // DONE: 6/4/25 Include more info.
       binding.thumbnail.setOnClickListener(

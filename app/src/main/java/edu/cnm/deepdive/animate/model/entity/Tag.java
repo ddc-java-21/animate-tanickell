@@ -20,7 +20,7 @@ public class Tag {
   private long id;
 
   @NonNull
-  @ColumnInfo(name = "name", collate = ColumnInfo.NOCASE, index = true)
+  @ColumnInfo(name = "name", collate = ColumnInfo.NOCASE)
   private String name = "";
 
   @NonNull

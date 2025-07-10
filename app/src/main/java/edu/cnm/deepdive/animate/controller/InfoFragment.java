@@ -34,7 +34,7 @@ public class InfoFragment extends BottomSheetDialogFragment {
         .getAnime()
         .observe(getViewLifecycleOwner(), anime -> {
           DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
-          binding.date.setText(formatter.format(anime.getRelease_date())); // anime.getDate().format(formatter) --> date, format yourself (as opposed to formatter, format this date)
+          binding.date.setText(formatter.format(anime.getReleaseDate())); // anime.getDate().format(formatter) --> date, format yourself (as opposed to formatter, format this date)
           binding.title.setText(anime.getTitle().strip());
           binding.description.setText(anime.getDescription().strip());
           if (anime.getCopyright() != null && !anime.getCopyright().isBlank()) {

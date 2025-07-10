@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -55,6 +56,14 @@ public class Anime {
   @NonNull
   @ColumnInfo(name = "date_modified")
   private Instant modified = Instant.now();
+
+  @Expose(serialize = false, deserialize = true)
+  @SerializedName("media_type")
+  @ColumnInfo(name = "media_type")
+  private MediaType mediaType;
+
+  @Expose(serialize = false, deserialize = true)
+  private String copyright;
 
 
   public long getId() {
@@ -146,4 +155,30 @@ public class Anime {
   public void setModified(@NonNull Instant modified) {
     this.modified = modified;
   }
+
+  public MediaType getMediaType() {
+    return mediaType;
+  }
+
+  public void setMediaType(MediaType mediaType) {
+    this.mediaType = mediaType;
+  }
+
+  public String getCopyright() {
+    return copyright;
+  }
+
+  public void setCopyright(String copyright) {
+    this.copyright = copyright;
+  }
+
+  public enum MediaType {
+
+    @SerializedName("image")
+    IMAGE,
+    @SerializedName("video")
+    VIDEO;
+
+  }
+
 }
