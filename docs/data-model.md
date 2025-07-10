@@ -16,12 +16,3 @@ order: 20
 
 {% include linked-image.md image="img/sliding-tiles.svg" dest="pdf/sliding-tiles.pdf" alt="UML class diagram"%}
 
-## Data definition language
-
-{% include linked-file file="sql/ddl.sql" type="sql" %}
-
-```sqlite
-INSERT INTO User
-```
-
-[![Wireframe diagram](img/Wireframe.svg)](pdf/wireframe.pdf)
