@@ -16,3 +16,6 @@ order: 20
 
 {% include linked-image.md image="img/sliding-tiles.svg" dest="pdf/sliding-tiles.pdf" alt="UML class diagram"%}
 
+## ERD entity diagram
+
+[![AniMate ERD Entity Diagram](img/AniMate-ERD.drawio.svg)](pdf/AniMate-ERD.drawio.pdf)
