@@ -2,14 +2,23 @@
 
 <!-- Complete this checklist for each entity -->
 
-## Entity name: FavoriteTag
+## Entity name: Anime
 
 ## Attributes
 
-- favorite_tag_id: long (PK)
-- favorite_id: long (FK1)
-- name: String
-- tagged: Instant
+- anime_id: long (PK)
+- external_key: UUID (UK1)
+- title: String
+- genre: String
+- rating: String
+- score: float
+- description: String
+- bannerUrl: URL
+- trailerUrl: URL
+- release_date: Instant
+- created: Instant
+- modified: Instant
+
 
 ## Data-access object (DAO) operations
 
@@ -42,11 +51,15 @@ Your DAO will also need to declare methods that read data from the database, pro
 
 If you think you will have multiple queries that return a single instance, and/or multiple queries that return multiple instances, copy and pase the bullet items below as many times as necessary.
 
-* [X] Return a single instance, selected by favorite_tag_id.
+* [X] Return a single instance, selected by anime_id. (can use for nested SQL statements?)
 
-* [X] Return multiple instances, selected by favorite_id, and orded by tagged DESC.
+* [X] Return multiple instances, selected by anime_id, and orded by release_date DESC. (for doing a range in a nested SQL statement) --> select using favorites or anime_tags?
 
-* [X] Return multiple instances, selected by favorite_id, and orded by name.
+* [X] Return multiple instances, selected by genre, and ordered by score DESC.
+
+* [X] Return multiple instances, selected by genre, and ordered by release_date DESC.
+
+* [X] Return multiple instances, orded by release_date. (where release_date after some value)
 
 
 * [ ] Return a single instance, selected by {_replace this the name(s) of the attribute(s) that will be used to filter for a single instance of the entity_}.
