@@ -69,7 +69,7 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
 
     void bind(int position, Anime anime) {
       binding.title.setText(anime.getTitle().strip());
-      binding.date.setText(formatter.format(anime.getReleaseDate()));
+      binding.date.setText(formatter.format(anime.getDate()));
       binding.mediaTypeThumbnail.setVisibility(View.VISIBLE);
       binding.thumbnail.setContentDescription(anime.getTitle()); // DONE: 6/4/25 Include more info.
       binding.thumbnail.setOnClickListener(
@@ -77,7 +77,7 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
       binding.info.setOnClickListener((v) -> onInfoClickListener.onAnimeClick(anime, position));
       MediaType mediaType = anime.getMediaType();
       if (mediaType == MediaType.IMAGE) {
-        loadThumbnail(anime.getPosterUrl().toString());
+        loadThumbnail(anime.getUrl().toString());
         binding.mediaTypeThumbnail.setImageResource(R.drawable.photo_camera);
       } else if (mediaType == MediaType.VIDEO) {
         Matcher matcher = YOUTUBE_URL.matcher(anime.getPosterUrl().toString());
