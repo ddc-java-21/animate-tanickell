@@ -2,12 +2,92 @@ package edu.cnm.deepdive.animate.service.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 import edu.cnm.deepdive.animate.model.entity.Tag;
+import io.reactivex.rxjava3.core.Single;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 @Dao
 public interface TagDao {
+
+  @Insert
+  Single<Long> insert(Tag tag);
+
+  default Single<Tag> insertAndRefresh(Tag tag) {
+    return Single
+        .just(tag)
+        .doOnSuccess((t) -> {
+          Instant now = Instant.now();
+          t.setCreated(now);
+          t.setModified(now);
+        })
+        .flatMap(this::insert)
+        .doOnSuccess(tag::setId)
+        .map((id) -> tag);
+  }
+
+  @Insert Single<List<Long>> insert(List<Tag> tags);
+
+  default Single<List<Tag>> insertAndRefresh(List<Tag> tags) {
+    return Single
+        .just(tags)
+        .doOnSuccess((ts) -> {
+          Instant now = Instant.now();
+          ts.forEach(t -> {
+            t.setCreated(now);
+            t.setModified(now);
+          });
+        })
+        .flatMap(this::insert)
+        .doOnSuccess((ids) -> {
+          Iterator<Long> idIterator = ids.iterator();
+          Iterator<Tag> tagIterator = tags.iterator();
+          while (idIterator.hasNext() && tagIterator.hasNext()) {
+            tagIterator.next().setId(idIterator.next());
+          }
+        })
+        .map((ids) -> tags);
+  }
+
+  @Update
+  Single<Integer> update(Tag tag);
+
+  default Single<Tag> updateAndRefresh(Tag tag) {
+    return Single
+        .just(tag)
+        .doOnSuccess((t) -> {
+          t.setModified(Instant.now());
+        })
+        .flatMap(this::update)
+        .map((count) -> tag);
+  }
+
+  @Update
+  Single<Integer> update(Collection<Tag> tags);
+
+  default Single<Collection<Tag>> updateAndRefresh(Collection<Tag> tags) {
+    return Single
+        .just(tags)
+        .doOnSuccess((ts) -> {
+          ts.forEach((t) -> {
+            t.setModified(Instant.now());
+          });
+        })
+        .flatMap(this::update)
+        .map((count) -> tags);
+  }
+
+  @Delete
+  Single<Integer> delete(Tag tag);
+
+  @Query("DELETE FROM tag") // truncate
+  Single<Integer> deleteAll();
 
   // Get a single tag by id
   @Query("SELECT * FROM tag WHERE tag_id = :id")

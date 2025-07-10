@@ -16,9 +16,9 @@ import java.util.List;
 public interface UserDao {
 
   @Insert
-  Single<Long> _insert(User user); // When should we use user.setId(...) to update the object in memory // single
+  Single<Long> insert(User user); // When should we use user.setId(...) to update the object in memory // single
 
-  default Single<User> insert(User user) {
+  default Single<User> insertAndRefresh(User user) {
     return Single
         .just(user)
         .doOnSuccess((u) -> {
@@ -26,15 +26,15 @@ public interface UserDao {
           u.setCreated(now);
           u.setModified(now);
         })
-        .flatMap(this::_insert)
+        .flatMap(this::insert)
         .doOnSuccess(user::setId)
         .map((id) -> user);
   }
 
   @Update
-  Single<Integer> _update(User user); // when Single<Integer>, returns number of records overall that were affected (modified) by this update // no update is performed if info is the same
+  Single<Integer> update(User user); // when Single<Integer>, returns number of records overall that were affected (modified) by this update // no update is performed if info is the same
 
-  default Single<User> update(User user) { // public
+  default Single<User> updateAndRefresh(User user) {
     return Single
         .just(user)
         .doOnSuccess((u) -> u.setModified(Instant.now()))

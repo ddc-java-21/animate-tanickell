@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 import edu.cnm.deepdive.animate.model.entity.Anime;
 import io.reactivex.rxjava3.core.Single;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -20,8 +21,18 @@ public interface AnimeDao {
   Single<Long> insert(Anime anime); // int or long doesn't allow for running on the same thread --> machinery to pass along Long primary key
 
   default Single<Anime> insertAndRefresh(Anime anime) {
-    return insert(anime)
-        .doOnSuccess((id) -> anime.setId(id)) // consumer of the value
+//    return insert(anime)
+//        .doOnSuccess((id) -> anime.setId(id)) // consumer of the value
+//        .map((id) -> anime);
+    return Single
+        .just(anime)
+        .doOnSuccess((a) -> {
+          Instant now = Instant.now();
+          a.setCreated(now);
+          a.setModified(now);
+        })
+        .flatMap(this::insert)
+        .doOnSuccess((id) -> anime.setId(id))
         .map((id) -> anime);
   }
 
@@ -29,16 +40,35 @@ public interface AnimeDao {
   Single<List<Long>> insert(List<Anime> animes);  // can pass an array of anime instead of a list of anime
 
   default Single<List<Anime>> insertAndRefresh(List<Anime> animes) { // pass downstream some subset of this list (animes)
-    return insert(animes)
-        .map((ids) -> {
+//    return insert(animes)
+//        .map((ids) -> {
+//          Iterator<Long> idIterator = ids.iterator();
+//          Iterator<Anime> animeIterator = animes.iterator();
+//          while (idIterator.hasNext() && animeIterator.hasNext()) {
+//            animeIterator.next().setId(idIterator.next());
+//          }
+//          animes.removeIf((anime) -> anime.getId() <= 0);
+//          return animes;
+//        });
+    return Single
+        .just(animes)
+        .doOnSuccess((as) -> {
+          Instant now = Instant.now();
+          as.forEach((a) -> {
+            a.setCreated(now);
+            a.setModified(now);
+          });
+        })
+        .flatMap(this::insert)
+        .doOnSuccess((ids) -> {
           Iterator<Long> idIterator = ids.iterator();
           Iterator<Anime> animeIterator = animes.iterator();
           while (idIterator.hasNext() && animeIterator.hasNext()) {
             animeIterator.next().setId(idIterator.next());
           }
           animes.removeIf((anime) -> anime.getId() <= 0);
-          return animes;
-        });
+        })
+        .map((ids) -> animes);
   }
 
   @Insert
@@ -47,14 +77,37 @@ public interface AnimeDao {
   @Update
   Single<Integer> update(Anime anime);
 
+  default Single<Anime> updateAndRefresh(Anime anime) {
+    return Single
+        .just(anime)
+        .doOnSuccess((a) -> {
+          a.setModified(Instant.now());
+        })
+        .flatMap(this::update)
+        .map((count) -> anime);
+  }
+
   @Update
   Single<Integer> update(Collection<Anime> animes);
+
+  default Single<Collection<Anime>> updateAndRefresh(Collection<Anime> animes) {
+    return Single
+        .just(animes)
+        .doOnSuccess((as) -> {
+          as.forEach((a) -> {
+            a.setModified(Instant.now());
+          });
+        })
+        .flatMap(this::update)
+        .map((count) -> animes);
+  }
 
   @Delete
   Single<Integer> delete(Anime anime);
 
   @Query("DELETE FROM anime") // truncate
   Single<Integer> deleteAll();
+
 
   @Query("SELECT * FROM anime WHERE anime_id = :id") // most queries will be LiveData, sometimes reactivex (FindByID in Spring repository)
   LiveData<Anime> get(long id); // returning a list here makes no sense
