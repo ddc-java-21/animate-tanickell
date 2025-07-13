@@ -64,7 +64,7 @@ public class Anime {
   private Boolean airing;
 
   @Expose(serialize = false, deserialize = true)
-  @ColumnInfo(name = "date_aired")
+  @ColumnInfo(name = "date_released")
   private Instant airedFrom;
 
   @Expose(serialize = false, deserialize = true)
