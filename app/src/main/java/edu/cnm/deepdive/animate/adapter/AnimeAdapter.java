@@ -80,7 +80,7 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
         loadThumbnail(anime.getUrl().toString());
         binding.mediaTypeThumbnail.setImageResource(R.drawable.photo_camera);
       } else if (mediaType == MediaType.VIDEO) {
-        Matcher matcher = YOUTUBE_URL.matcher(anime.getPosterUrl().toString());
+        Matcher matcher = YOUTUBE_URL.matcher(anime.getUrl().toString());
         if (matcher.matches()) {
           String videoId = matcher.group(1);
           String thumbnailUrl = String.format(YOUTUBE_THUMBNAIL_URL, videoId); // String thumbnailUrl = YOUTUBE_THUMBNAIL_URL.formatted(videoId);

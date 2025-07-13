@@ -118,7 +118,7 @@ public interface AnimeDao {
       + "JOIN tag AS t ON t.tag_id = at.tag_id "
       + "WHERE t.tag_id = :tagId "
       + "ORDER BY at.date_tagged DESC")
-  LiveData<List<Anime>> getAnimesByTagOrderByDateTaggedDesc(long tagId);
+  LiveData<List<Anime>> getAnimeByTagOrderByDateTaggedDesc(long tagId);
 
   // Get animes associated with a certain user id via favorites (i.e., a user's favorites):
   @Query("SELECT a.* FROM anime AS a "
@@ -126,15 +126,15 @@ public interface AnimeDao {
       + "JOIN user AS u ON u.user_id = f.user_id "
       + "WHERE u.user_id = :userId "
       + "ORDER BY f.date_favorited DESC")
-  LiveData<List<Anime>> getAnimesByUserOrderByDateFavoritedDesc(long userId);
+  LiveData<List<Anime>> getAnimeByUserOrderByDateFavoritedDesc(long userId);
 
   @Query("SELECT * FROM anime WHERE genre = :genre ORDER BY release_date DESC")
-  LiveData<List<Anime>> getAnimesByGenreOrderByReleaseDateDesc(String genre);
+  LiveData<List<Anime>> getAnimeByGenreOrderByReleaseDateDesc(String genre);
 
   @Query("SELECT * FROM anime WHERE genre = :genre ORDER BY score DESC")
-  LiveData<List<Anime>> getAnimesByGenreOrderByScoreDesc(String genre);
+  LiveData<List<Anime>> getAnimeByGenreOrderByScoreDesc(String genre);
 
   @Query ("SELECT * FROM anime ORDER BY release_date DESC")
-  LiveData<List<Anime>> getAnimesOrderByReleaseDateDesc();
+  LiveData<List<Anime>> getAnimeOrderByReleaseDateDesc();
 
 }

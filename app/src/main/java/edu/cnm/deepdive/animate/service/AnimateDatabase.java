@@ -29,7 +29,7 @@ public abstract class AnimateDatabase extends RoomDatabase {
 
   static final int VERSION = 1;
 
-  private static final String NAME = "animage-db";
+  private static final String NAME = "animate-db";
 
   public static String getName() { return NAME; }
 

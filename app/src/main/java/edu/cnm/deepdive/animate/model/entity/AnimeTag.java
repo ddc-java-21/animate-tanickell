@@ -37,7 +37,7 @@ public class AnimeTag {
   private long id;
 
   @ColumnInfo(name = "user_id", index = true)
-  private long userId;
+  private Long userId;
 
   @ColumnInfo(name = "anime_id", index = true)
   private long animeId;

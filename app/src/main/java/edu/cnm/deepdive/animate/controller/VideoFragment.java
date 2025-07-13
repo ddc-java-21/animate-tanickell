@@ -83,7 +83,7 @@ public class VideoFragment extends Fragment implements MenuProvider {
     ((AppCompatActivity) requireActivity())
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok
         .setTitle(anime.getTitle());
-    binding.content.loadUrl(anime.getPosterUrl().toString());
+    binding.content.loadUrl(anime.getUrl().toString());
   }
 
   private class Client extends WebViewClient {

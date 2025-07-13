@@ -95,8 +95,8 @@ public class ImageFragment extends Fragment implements MenuProvider {
           .navigate(ImageFragmentDirections.displayInfo());
     } else if (itemId == R.id.download_image) {
       handled = true; // again, otherwise it'll keep asking other menu providers
-      URL hdurl = anime.getTrailerUrl();
-      viewModel.downloadImage(anime.getTitle(), (hdurl != null) ? hdurl : anime.getPosterUrl());
+      URL hdurl = anime.getHdurl();
+      viewModel.downloadImage(anime.getTitle(), (hdurl != null) ? hdurl : anime.getUrl());
     }
     return handled;
   }
@@ -108,7 +108,7 @@ public class ImageFragment extends Fragment implements MenuProvider {
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok
         .setTitle(anime.getTitle());
     Picasso.get()
-        .load(Uri.parse(anime.getPosterUrl().toString()))
+        .load(Uri.parse(anime.getUrl().toString()))
         .into(new ImageFinalizer());
   }
 
