@@ -21,22 +21,32 @@ public class Anime {
   private long id;
 
   @Expose(serialize = false, deserialize = true)
-  @ColumnInfo(collate = ColumnInfo.NOCASE)
+  @ColumnInfo(name = "title", collate = ColumnInfo.NOCASE)
   private String animeTitle;
 
   @Expose(serialize = false, deserialize = true)
-  @ColumnInfo(collate = ColumnInfo.NOCASE)
-  private String genre;
-
-  @Expose(serialize = false, deserialize = true)
-  @ColumnInfo(collate = ColumnInfo.NOCASE)
   private String rating;
 
   @Expose(serialize = false, deserialize = true)
-  private double score;
+  private Double score;
 
   @Expose(serialize = false, deserialize = true)
-  private String description;
+  private String season;
+
+  @Expose(serialize = false, deserialize = true)
+  private int year;
+
+  @Expose(serialize = false, deserialize = true)
+  private int rank;
+
+  @Expose(serialize = false, deserialize = true)
+  private int popularity;
+
+  @Expose(serialize = false, deserialize = true)
+  private String synopsis;
+
+  @Expose(serialize = false, deserialize = true)
+  private String background;
 
   @Expose(serialize = false, deserialize = true)
   private URL posterUrl;
@@ -75,14 +85,6 @@ public class Anime {
     this.animeTitle = animeTitle;
   }
 
-  public String getGenre() {
-    return genre;
-  }
-
-  public void setGenre(String genre) {
-    this.genre = genre;
-  }
-
   public String getRating() {
     return rating;
   }
@@ -91,20 +93,60 @@ public class Anime {
     this.rating = rating;
   }
 
-  public double getScore() {
+  public Double getScore() {
     return score;
   }
 
-  public void setScore(double score) {
+  public void setScore(Double score) {
     this.score = score;
   }
 
-  public String getDescription() {
-    return description;
+  public String getSeason() {
+    return season;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setSeason(String season) {
+    this.season = season;
+  }
+
+  public int getYear() {
+    return year;
+  }
+
+  public void setYear(int year) {
+    this.year = year;
+  }
+
+  public int getRank() {
+    return rank;
+  }
+
+  public void setRank(int rank) {
+    this.rank = rank;
+  }
+
+  public int getPopularity() {
+    return popularity;
+  }
+
+  public void setPopularity(int popularity) {
+    this.popularity = popularity;
+  }
+
+  public String getSynopsis() {
+    return synopsis;
+  }
+
+  public void setSynopsis(String synopsis) {
+    this.synopsis = synopsis;
+  }
+
+  public String getBackground() {
+    return background;
+  }
+
+  public void setBackground(String background) {
+    this.background = background;
   }
 
   public URL getPosterUrl() {
