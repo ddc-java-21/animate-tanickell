@@ -11,15 +11,15 @@ import java.time.Instant;
     tableName = "anime_genre",
     foreignKeys = {
         @ForeignKey(
-            entity = Genre.class,
-            parentColumns = "genre_id",
-            childColumns = "genre_id",
-            onDelete = ForeignKey.CASCADE
-        ),
-        @ForeignKey(
             entity = Anime.class,
             parentColumns = "anime_id",
             childColumns = "anime_id",
+            onDelete = ForeignKey.CASCADE
+        ),
+        @ForeignKey(
+            entity = Genre.class,
+            parentColumns = "genre_id",
+            childColumns = "genre_id",
             onDelete = ForeignKey.CASCADE
         )
     }
@@ -30,11 +30,11 @@ public class AnimeGenre {
   @ColumnInfo(name = "anime_genre_id")
   private long id;
 
-  @ColumnInfo(name = "genre_id", index = true)
-  private long genreId;
-
   @ColumnInfo(name = "anime_id", index = true)
   private long animeId;
+
+  @ColumnInfo(name = "genre_id", index = true)
+  private long genreId;
 
   @NonNull
   @ColumnInfo(name = "date_added", index = true)

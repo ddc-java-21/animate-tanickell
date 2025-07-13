@@ -128,11 +128,21 @@ public interface AnimeDao {
       + "ORDER BY f.date_favorited DESC")
   LiveData<List<Anime>> getAnimeByUserOrderByDateFavoritedDesc(long userId);
 
-  @Query("SELECT * FROM anime WHERE genre = :genre ORDER BY release_date DESC")
-  LiveData<List<Anime>> getAnimeByGenreOrderByReleaseDateDesc(String genre);
+//  @Query("SELECT * FROM anime WHERE genre = :genre ORDER BY release_date DESC")
+  @Query("SELECT a.* FROM anime AS a "
+      + "JOIN anime_genre AS ag ON ag.anime_id = a.anime_id "
+      + "JOIN genre AS g ON g.genre_id = ag.genre_id "
+      + "WHERE g.genre_id = :genreId "
+      + "ORDER BY a.release_date DESC")
+  LiveData<List<Anime>> getAnimeByGenreOrderByReleaseDateDesc(long genreId);
 
-  @Query("SELECT * FROM anime WHERE genre = :genre ORDER BY score DESC")
-  LiveData<List<Anime>> getAnimeByGenreOrderByScoreDesc(String genre);
+//  @Query("SELECT * FROM anime WHERE genre = :genre ORDER BY score DESC")
+  @Query("SELECT a.* FROM anime AS a "
+      + "JOIN anime_genre AS ag ON ag.anime_id = a.anime_id "
+      + "JOIN genre AS g ON g.genre_id = ag.genre_id "
+      + "WHERE g.genre_id = :genreId "
+      + "ORDER BY a.score DESC")
+  LiveData<List<Anime>> getAnimeByGenreOrderByScoreDesc(long genreId);
 
   @Query ("SELECT * FROM anime ORDER BY release_date DESC")
   LiveData<List<Anime>> getAnimeOrderByReleaseDateDesc();

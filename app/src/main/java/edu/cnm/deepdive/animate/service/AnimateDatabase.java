@@ -6,22 +6,31 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.entity.AnimeGenre;
 import edu.cnm.deepdive.animate.model.entity.AnimeTag;
 import edu.cnm.deepdive.animate.model.entity.Favorite;
+import edu.cnm.deepdive.animate.model.entity.Genre;
 import edu.cnm.deepdive.animate.model.entity.Tag;
+import edu.cnm.deepdive.animate.model.entity.Title;
 import edu.cnm.deepdive.animate.model.entity.User;
 import edu.cnm.deepdive.animate.service.AnimateDatabase.Converters;
 import edu.cnm.deepdive.animate.service.dao.AnimeDao;
+import edu.cnm.deepdive.animate.service.dao.AnimeGenreDao;
 import edu.cnm.deepdive.animate.service.dao.AnimeTagDao;
 import edu.cnm.deepdive.animate.service.dao.FavoriteDao;
+import edu.cnm.deepdive.animate.service.dao.GenreDao;
 import edu.cnm.deepdive.animate.service.dao.TagDao;
+import edu.cnm.deepdive.animate.service.dao.TitleDao;
 import edu.cnm.deepdive.animate.service.dao.UserDao;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
 
 @Database(
-    entities = {User.class, Anime.class, Tag.class, Favorite.class, AnimeTag.class},
+    entities = {
+        User.class, Anime.class, Tag.class, Favorite.class,
+        AnimeTag.class, Genre.class, AnimeGenre.class, Title.class
+    },
     version = AnimateDatabase.VERSION
 )
 @TypeConverters({Converters.class})
@@ -31,13 +40,25 @@ public abstract class AnimateDatabase extends RoomDatabase {
 
   private static final String NAME = "animate-db";
 
-  public static String getName() { return NAME; }
+  public static String getName() {
+    return NAME;
+  }
 
   public abstract UserDao getUserDao();
+
   public abstract AnimeDao getAnimeDao();
+
   public abstract TagDao getTagDao();
+
+  public abstract GenreDao getGenreDao();
+
+  public abstract TitleDao getTitleDao();
+
   public abstract FavoriteDao getFavoriteDao();
+
   public abstract AnimeTagDao getAnimeTagDao();
+
+  public abstract AnimeGenreDao getAnimeGenreDao();
 
   public static class Converters {
 
@@ -63,7 +84,7 @@ public abstract class AnimateDatabase extends RoomDatabase {
 
     @TypeConverter
     public static String fromURL(URL value) {
-      return  (value != null) ? value.toString() : null;
+      return (value != null) ? value.toString() : null;
     }
 
     @TypeConverter
