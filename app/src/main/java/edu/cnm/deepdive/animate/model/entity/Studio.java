@@ -4,12 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import java.time.Instant;
 
 @Entity(
-    tableName = "title",
+    tableName = "studio",
     foreignKeys = {
         @ForeignKey(
             entity = Anime.class,
@@ -19,10 +18,10 @@ import java.time.Instant;
         )
     }
 )
-public class Title {
+public class Studio {
 
   @PrimaryKey(autoGenerate = true)
-  @ColumnInfo(name = "title_id")
+  @ColumnInfo(name = "studio_id")
   private long id;
 
   @ColumnInfo(name = "anime_id", index = true)

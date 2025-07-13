@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.animate.service;
 
-import android.net.Uri;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverter;
@@ -10,8 +9,8 @@ import edu.cnm.deepdive.animate.model.entity.AnimeGenre;
 import edu.cnm.deepdive.animate.model.entity.AnimeTag;
 import edu.cnm.deepdive.animate.model.entity.Favorite;
 import edu.cnm.deepdive.animate.model.entity.Genre;
+import edu.cnm.deepdive.animate.model.entity.Studio;
 import edu.cnm.deepdive.animate.model.entity.Tag;
-import edu.cnm.deepdive.animate.model.entity.Title;
 import edu.cnm.deepdive.animate.model.entity.User;
 import edu.cnm.deepdive.animate.service.AnimateDatabase.Converters;
 import edu.cnm.deepdive.animate.service.dao.AnimeDao;
@@ -19,8 +18,8 @@ import edu.cnm.deepdive.animate.service.dao.AnimeGenreDao;
 import edu.cnm.deepdive.animate.service.dao.AnimeTagDao;
 import edu.cnm.deepdive.animate.service.dao.FavoriteDao;
 import edu.cnm.deepdive.animate.service.dao.GenreDao;
+import edu.cnm.deepdive.animate.service.dao.StudioDao;
 import edu.cnm.deepdive.animate.service.dao.TagDao;
-import edu.cnm.deepdive.animate.service.dao.TitleDao;
 import edu.cnm.deepdive.animate.service.dao.UserDao;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,7 +28,7 @@ import java.time.Instant;
 @Database(
     entities = {
         User.class, Anime.class, Tag.class, Favorite.class,
-        AnimeTag.class, Genre.class, AnimeGenre.class, Title.class
+        AnimeTag.class, Genre.class, AnimeGenre.class, Studio.class
     },
     version = AnimateDatabase.VERSION
 )
@@ -52,7 +51,7 @@ public abstract class AnimateDatabase extends RoomDatabase {
 
   public abstract GenreDao getGenreDao();
 
-  public abstract TitleDao getTitleDao();
+  public abstract StudioDao getStudioDao();
 
   public abstract FavoriteDao getFavoriteDao();
 
