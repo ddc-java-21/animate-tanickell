@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.entity.Apod;
 import io.reactivex.rxjava3.core.Single;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
@@ -30,10 +31,10 @@ public interface AnimeProxy {
   Context[] contexts = new Context[1];
 
   @GET("planetary/apod")
-  Single<Anime> get(@Query("date") LocalDate date, @Query("api_key") String apiKey); // get "black box" to send across the wire; include data in request
+  Single<Apod> get(@Query("date") LocalDate date, @Query("api_key") String apiKey); // get "black box" to send across the wire; include data in request
 
   @GET("planetary/apod")
-  Single<Anime[]> get(
+  Single<Apod[]> get(
       @Query("start_date") LocalDate startDate, @Query("end_date") LocalDate endDate,
       @Query("api_key") String apiKey);
 

@@ -15,6 +15,7 @@ import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.adapter.AnimeAdapter;
 import edu.cnm.deepdive.animate.databinding.FragmentListBinding;
 import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.entity.Apod;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 
 public class ListFragment extends Fragment {
@@ -54,13 +55,13 @@ public class ListFragment extends Fragment {
     super.onDestroyView();
   }
 
-  private void navigateToInfo(Anime anime) {
+  private void navigateToInfo(Apod anime) {
     viewModel.setAnime(anime);
     Navigation.findNavController(binding.getRoot())
         .navigate(ListFragmentDirections.displayInfo());
   }
 
-  private void navigateToMedia(Anime anime) {
+  private void navigateToMedia(Apod anime) {
     if (anime.getMediaType() == null) {
       Snackbar.make(
               binding.getRoot(), R.string.no_media_display, Snackbar.LENGTH_LONG)

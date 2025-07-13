@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.entity.Apod;
 import edu.cnm.deepdive.animate.service.AnimeService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.net.URL;
@@ -21,8 +22,8 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
 
   private static final String TAG = AnimeViewModel.class.getSimpleName();
 
-  private final MutableLiveData<Anime> anime;
-  private final MutableLiveData<List<Anime>> animes;
+  private final MutableLiveData<Apod> anime;
+  private final MutableLiveData<List<Apod>> animes;
   private final MutableLiveData<Uri> downloadedImage;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
@@ -41,15 +42,15 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
     fetch(lastMonth, today);
   }
 
-  public LiveData<Anime> getAnime() {
+  public LiveData<Apod> getAnime() {
     return anime;
   }
 
-  public void setAnime(Anime anime) {
+  public void setAnime(Apod anime) {
     this.anime.setValue(anime);
   }
 
-  public LiveData<List<Anime>> getAnimes() {
+  public LiveData<List<Apod>> getAnimes() {
     return animes;
   }
 

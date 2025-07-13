@@ -23,6 +23,7 @@ import androidx.navigation.Navigation;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentVideoBinding;
 import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.entity.Apod;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 
 public class VideoFragment extends Fragment implements MenuProvider {
@@ -78,7 +79,7 @@ public class VideoFragment extends Fragment implements MenuProvider {
     return handled;
   }
 
-  private void displayAnime(Anime anime) {
+  private void displayAnime(Apod anime) {
     //noinspection DataFlowIssue
     ((AppCompatActivity) requireActivity())
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok

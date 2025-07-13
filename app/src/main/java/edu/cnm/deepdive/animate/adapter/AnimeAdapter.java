@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.ItemAnimeBinding;
-import edu.cnm.deepdive.animate.model.entity.Anime;
-
-import edu.cnm.deepdive.animate.model.entity.Anime.MediaType;
+//import edu.cnm.deepdive.animate.model.entity.Anime.MediaType;
+import edu.cnm.deepdive.animate.model.entity.Apod.MediaType;
+import edu.cnm.deepdive.animate.model.entity.Apod;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
@@ -25,13 +25,13 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
   private static final Pattern YOUTUBE_URL =
       Pattern.compile("^(?:https?://)?(?:www\\.)?(?:youtube\\.com/(?:watch\\?v=|embed/|v/)|youtu\\.be/)([a-zA-Z0-9_-]{11})(?:\\S+)?$");
   private static final String YOUTUBE_THUMBNAIL_URL = "https://img.youtube.com/vi/%s/0.jpg";
-  private final List<Anime> animes;
+  private final List<Apod> animes;
   private final OnAnimeClickListener onThumbnailClickListener;
   private final OnAnimeClickListener onInfoClickListener;
   private final LayoutInflater inflater;
   private final DateTimeFormatter formatter;
 
-  public AnimeAdapter(@NonNull Context context, @NonNull List<Anime> animes,
+  public AnimeAdapter(@NonNull Context context, @NonNull List<Apod> animes,
       @NonNull OnAnimeClickListener onThumbnailClickListener,
       @NonNull OnAnimeClickListener onInfoClickListener) {
     this.animes = animes;
@@ -67,7 +67,7 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
       this.binding = binding;
     }
 
-    void bind(int position, Anime anime) {
+    void bind(int position, Apod anime) {
       binding.title.setText(anime.getTitle().strip());
       binding.date.setText(formatter.format(anime.getDate()));
       binding.mediaTypeThumbnail.setVisibility(View.VISIBLE);
@@ -108,7 +108,7 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
   @FunctionalInterface
   public interface OnAnimeClickListener {
 
-    void onAnimeClick(Anime anime, int position);
+    void onAnimeClick(Apod anime, int position);
 
   }
 

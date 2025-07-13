@@ -10,6 +10,7 @@ import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.MediaColumns;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.entity.Apod;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;
@@ -45,12 +46,12 @@ public class AnimeService {
     AnimeService.context = context;
   }
 
-  public Single<Anime> getAnime(LocalDate date) {
+  public Single<Apod> getAnime(LocalDate date) {
     return proxy
         .get(date, apiKey)
         .subscribeOn(scheduler); // returning instead of an anime object, the piece of machinery that will fetch the Anime and pass it downstream WHEN TURNED ON
   }
-  public Single<List<Anime>> getAnimes(LocalDate startDate, LocalDate endDate) {
+  public Single<List<Apod>> getAnimes(LocalDate startDate, LocalDate endDate) {
     return proxy
         .get(startDate, endDate, apiKey)
         .subscribeOn(scheduler)

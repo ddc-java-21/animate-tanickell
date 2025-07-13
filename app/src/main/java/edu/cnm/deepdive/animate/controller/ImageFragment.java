@@ -30,7 +30,8 @@ import com.squareup.picasso.Picasso.LoadedFrom;
 import com.squareup.picasso.Target;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentImageBinding;
-import edu.cnm.deepdive.animate.model.entity.Anime;
+//import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.entity.Apod;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -39,7 +40,7 @@ import java.net.URL;
 public class ImageFragment extends Fragment implements MenuProvider {
 
   private FragmentImageBinding binding;
-  private Anime anime;
+  private Apod anime;
   private AnimeViewModel viewModel;
 
   @Nullable
@@ -101,7 +102,7 @@ public class ImageFragment extends Fragment implements MenuProvider {
     return handled;
   }
 
-  private void displayAnime(Anime anime) {
+  private void displayAnime(Apod anime) {
     this.anime = anime;
     //noinspection DataFlowIssue
     ((AppCompatActivity) requireActivity())
@@ -134,9 +135,9 @@ public class ImageFragment extends Fragment implements MenuProvider {
 
   private class GalleryImageFinalizer implements Target {
 
-    private final Anime anime;
+    private final Apod anime;
 
-    private GalleryImageFinalizer(Anime anime) {
+    private GalleryImageFinalizer(Apod anime) {
       this.anime = anime;
     }
 
