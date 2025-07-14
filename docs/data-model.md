@@ -10,7 +10,7 @@ order: 20
 {:.no_toc:}
 
 - ToC
-  {:toc}
+{:toc}
 
 ## UML class diagram
 
