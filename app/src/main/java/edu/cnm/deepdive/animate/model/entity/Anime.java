@@ -25,20 +25,23 @@ public class Anime {
   private long id;
 
   @ColumnInfo(name = "mal_id")
-  private long malId;
+  private Long malId;
 
   @Expose(serialize = false, deserialize = true)
+  @ColumnInfo(name = "mal_url")
   private URL malUrl;
 
   @Expose(serialize = false, deserialize = true)
+  @ColumnInfo(name = "poster_url")
   private URL posterUrl;
 
   @Expose(serialize = false, deserialize = true)
+  @ColumnInfo(name = "trailer_url")
   private URL trailerUrl;
 
   @Expose(serialize = false, deserialize = true)
   @ColumnInfo(name = "title", collate = ColumnInfo.NOCASE)
-  private String animeTitle;
+  private String title;
 
   @Expose(serialize = false, deserialize = true)
   @ColumnInfo(name = "title_english", collate = ColumnInfo.NOCASE)
@@ -72,6 +75,7 @@ public class Anime {
   private Instant airedTo;
 
   @Expose(serialize = false, deserialize = true)
+  @ColumnInfo(name = "aired_summary")
   private String airedString;
 
   @Expose(serialize = false, deserialize = true)
@@ -99,7 +103,7 @@ public class Anime {
   private String season;
 
   @Expose(serialize = false, deserialize = true)
-  private int year;
+  private Integer year;
 
   @Expose(serialize = false, deserialize = true)
   private String broadcast;
@@ -123,11 +127,11 @@ public class Anime {
     this.id = id;
   }
 
-  public long getMalId() {
+  public Long getMalId() {
     return malId;
   }
 
-  public void setMalId(long malId) {
+  public void setMalId(Long malId) {
     this.malId = malId;
   }
 
@@ -155,12 +159,12 @@ public class Anime {
     this.trailerUrl = trailerUrl;
   }
 
-  public String getAnimeTitle() {
-    return animeTitle;
+  public String getTitle() {
+    return title;
   }
 
-  public void setAnimeTitle(String animeTitle) {
-    this.animeTitle = animeTitle;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
   public String getTitleEnglish() {
@@ -307,11 +311,11 @@ public class Anime {
     this.season = season;
   }
 
-  public int getYear() {
+  public Integer getYear() {
     return year;
   }
 
-  public void setYear(int year) {
+  public void setYear(Integer year) {
     this.year = year;
   }
 
