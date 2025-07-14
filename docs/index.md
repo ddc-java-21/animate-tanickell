@@ -92,7 +92,7 @@ given anime)
     
 ## Device/external services
 
-* Jikan API: https://jikan.moe/
+* Jikan API: [https://jikan.moe/](https://jikan.moe/)
 
 ## Stretch goals and possible enhancements 
 
