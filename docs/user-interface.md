@@ -14,5 +14,5 @@ order: 10
 
 ## Wireframe diagram
 
-{% include linked-image.md image="img/wireframe.svg" dest="pdf/wireframe.pdf" alt="Wireframe diagram"%}
+{% include linked-image.md image="img/AniMate-Wireframe.svg" dest="pdf/AniMate-Wireframe.pdf" alt="Wireframe diagram"%}
 [Back to index](index.md)
