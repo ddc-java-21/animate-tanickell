@@ -42,17 +42,17 @@ show information that has been saved locally, without the use of the external AP
 * Casual watchers of TV shows and media who like to browse visually when deciding 
 on what they should watch next.
 
-    > As someone who enjoys browsing a visual database to discover new shows, I 
-use this app to list anime by genres I like, so that I can more easily decide on 
-new things to try that more closely match my tastes and interests.
+    > As someone who enjoys browsing a visual database to discover new content, I 
+use this app to list anime by genres I like, so that I can more easily pick 
+shows that more closely match my current tastes and interests.
   
 * Anime enthusiasts who want to filter or sort shows by specific attributes to find 
 information about them more quickly using a mobile interface.
 
-    > As an avid anime consumer who needs to know what the latest releases are, I
-find this mobile app a convenient way to quickly look up shows by release date, 
-read their plot synopses, and watch trailers for them so that I can quickly 
-prioritize the shows I want to watch this season, all without leaving my phone.
+    > As an avid anime consumer who needs to know the newest releases, I
+find this mobile app a convenient way to sift through shows, 
+read plot synopses, and watch trailers so I can quickly start
+drafting my watchlist for the season, all without leaving my phone.
 
 ## Functionality
 
