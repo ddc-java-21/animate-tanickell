@@ -14,43 +14,95 @@ order: 0
 
 ## Summary
 
-Replace this paragraph with one or more paragraphs summarizing the purpose and operation of the Android app you propose to develop in this project.
+AniMate is an anime media browser application for Android that provides a 
+convenient location to view various types of information about existing and
+upcoming Japanese animation content. It retrieves information about anime movies, 
+TV shows, dramas, and more, and displays them to the user in a list of
+interactive entries that, when tapped, reveal detailed information for that 
+content, including synopses and other details like animation studio, images, 
+trailers (youtube), air date, and more. For visual content, the user can then
+tap again to proceed to an additional view focusing on that content, giving
+them additional options to share media, download media, or open in an external 
+app. 
+
+In addition to media, the main anime listing view provides filtering options
+to search content by name, or to filter results to the user by genre or by 
+season/year. It also allows users to add favorites of content, and to provide
+tags for sorting and retrieval at a later date.
+
+The app stores an initial inventory of anime for a subset of shows, such as the 
+currently airing season or the thirty-or-so newest entries available in the API; 
+this set is what is stored initially in the database, and any other results that 
+the user obtains are then added to this set. This allows for offline viewing of 
+show information that has been saved locally, without the use of the external API.
+
 
 ## Intended users and user stories
 
-Write a bullet list here, including at least 2 different types of intended users. Make it reasonably specific; simply saying "Anyone who likes games" (for example) is not sufficiently specific.
+* Casual watchers of TV shows and media who like to browse visually when deciding 
+on what they should watch next.
 
-For each type of intended user, include at least 1 _user story_. A user story is usually just 1 simple sentence (no more than 2 sentences), in the voice of the intended user, stating a specific task that the user performs using the app, and the benefit that will be obtained. The simplest user stories take the form 
+    > As someone who enjoys browsing a visual database to discover new shows, I 
+use this app to list anime by genres I like, so that I can more easily decide on 
+new things to try that more closely match my tastes and interests.
+  
+* Anime enthusiasts who want to filter or sort shows by specific attributes to find 
+information about them more quickly using a mobile interface.
 
-> As a <type of intended user (_who_)> I want to <use of specific feature or functionality (_what_)> so that <benefit (_why_).
-
-Please avoid writing too much for the user story. In particular, if the way the user story is written makes it difficult to see the _who_, _what_, and _why_, then you probably need to re-write it more directly. (On the other hand, a user story should not simply be a re-statement of the intended user description.)
-
-Here is one (silly) example of an intended user, along with a user story. Please note not only the conceptual structure, but the Markdown syntax used.
-
-* People who like to use randomness in their decision-making.
-
-    > As someone who enjoys randomness in my life, I use this app to flip a virtual coin or roll one or more virtual dice, so that I can base my decisions on randomness without having to carry coins or dice in my pockets.
+    > As an avid anime consumer who needs to know what the latest releases are, I
+find this mobile app a convenient way to quickly look up shows by release date, 
+read their plot synopses, and watch trailers for them so that I can quickly 
+prioritize the shows I want to watch this season, all without leaving my phone.
 
 ## Functionality
 
-List (using a bullet list---or ordered list, if order is relevant) the key functional aspects that will be provided by the app---i.e., tell us what the user will be able to do using the app. This should not simply be a re-statement of the [summary](#summary), but should instead provide a more specific articulation of the functionality and user experience. 
+* Display a list of Anime media (shows, OVAs, and movies) to the user from a
+landing 'page' (i.e., the main view), distinguished by poster image, title 
+information, season and year information, and plot synopses
+* Allow users to tap an anime to take them to a new view that shows a larger
+image (poster), links to external content (e.g. MyAnimeList), and extended
+synopses and other information about the entry
+* Logging in using Google Sign-In, allowing for personalization of the in-app 
+experience:
+    * Marking apps as favorites that can be listed in a menu and revisited later
+    * Tagging entries with tags for personal sorting
+* Sorting the entries listed in the main view by anime attributes, including:
+    * Listing by genre
+    * Listing by season and year
+    * Listing by newly released
+* Embedded video (youtube video links) to watch trailers of anime listings, when
+available
+
 
 ## Persistent data
-
-Using a bullet list, list what content will be stored on the Android device. This should include any information that users of your app would expect to be maintained (i.e., without connection to a server) across multiple sessions of use.
-
-For example, this starter app already includes the necessary data model elements and data-access code to store & retrieve the following 
   
-* User
+* User information pertaining to Google Sign-In
     * Display name
     * OAuth2.0 identifier
     * Timestamp of first login to the app
+* Anime retrieved from MyAnimeList via Jikan and cached locally for later viewing:
+    * Anime titles, synopses, and descriptive information like genre and season
+    * Anime from any list sort actions, including by genre, new release, etc.
+* Information that pertains to user actions in the app, including:
+    * Favorites (Anime)
+    * Tags (User-provided)
+* Information on genre and studio (any information that can be multiple for any
+given anime)
+
     
 ## Device/external services
 
-If the client component will need to access special services of the device (e.g., sensors, contacts, messaging), list them here using a bullet list. Also, if the client component will need to access already-existing external services (e.g., real-time weather data, Open Movie Database, Open Trivia Database), those should also be listed here; any such references to external services should include links to the main page or API description page for the service.
+* Jikan API: https://jikan.moe/
 
 ## Stretch goals and possible enhancements 
 
-If you can identify functional elements of the software that you think might not be achievable in the scope of the project, but which would nonetheless add significant value if you were able to include them, list them here. For now, we recommend listing them in order of complexity/amount of work, from the least to the most.
+1. Sorting (or populating) main list by more than just one attribute at a time
+2. Sorting by more than just genre, or by season & year
+3. Adding licensors, producers, and themes (each require additional db tables and/or bridge entities)
+   --> Licensor, Producer, Theme, AnimeTheme
+4. Option to download multiple image types (small image, big image, etc.)
+5. Add avatar to user and allow for uploading picture
+6. Create separate views for specific episodes
+7. Ability to leave comments on anime episodes (for personal review)
+8. (Larger Stretch) Development of a server application to host comments for 
+multiple users at once, like a message board or reddit-style comment section
