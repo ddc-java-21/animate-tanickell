@@ -7,7 +7,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import edu.cnm.deepdive.animate.model.entity.Genre;
-import edu.cnm.deepdive.animate.model.entity.Tag;
 import io.reactivex.rxjava3.core.Single;
 import java.time.Instant;
 import java.util.Collection;

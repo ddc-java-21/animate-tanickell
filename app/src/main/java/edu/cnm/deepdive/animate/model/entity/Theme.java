@@ -9,15 +9,15 @@ import java.net.URL;
 import java.time.Instant;
 
 @Entity(
-    tableName = "genre",
+    tableName = "theme",
     indices = {
         @Index(value = "name", unique = true)
     }
 )
-public class Genre {
+public class Theme {
 
   @PrimaryKey(autoGenerate = true)
-  @ColumnInfo(name = "genre_id")
+  @ColumnInfo(name = "theme_id")
   private long id;
 
   @ColumnInfo(name = "mal_id")

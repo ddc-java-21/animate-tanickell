@@ -97,7 +97,8 @@ public interface StudioDao {
 
   // Get all studios associated with an anime
   @Query("SELECT s.* FROM studio AS s "
-      + "JOIN anime AS a ON a.anime_id = s.anime_id "
+      + "JOIN anime_studio AS ast ON ast.studio_id = s.studio_id "
+      + "JOIN anime AS a ON a.anime_id = ast.anime_id "
       + "WHERE a.anime_id = :animeId "
       + "ORDER BY s.name ASC")
   LiveData<List<Studio>> getStudioByAnimeOrderByNameAsc(long animeId);

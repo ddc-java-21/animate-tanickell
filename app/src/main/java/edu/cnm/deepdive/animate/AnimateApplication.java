@@ -19,12 +19,12 @@ public class AnimateApplication extends Application {
     AnimeService.setContext(this);
     Picasso.setSingletonInstance(new Picasso.Builder(this).build());
 
-//    new RoomDatabase.Builder<>(this, AnimateDatabase.class, "animate-db")
-//        .build()
-//        .getAnimeDao()
-//        .deleteAll()
-//        .subscribeOn(Schedulers.io())
-//        .subscribe();
+    new RoomDatabase.Builder<>(this, AnimateDatabase.class, "animate-db")
+        .build()
+        .getAnimeDao()
+        .deleteAll()
+        .subscribeOn(Schedulers.io())
+        .subscribe();
   }
 
 }

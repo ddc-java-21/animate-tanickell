@@ -3,19 +3,15 @@ package edu.cnm.deepdive.animate.model.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import java.net.URL;
 import java.time.Instant;
 
 @Entity(
     tableName = "studio",
-    foreignKeys = {
-        @ForeignKey(
-            entity = Anime.class,
-            parentColumns = "anime_id",
-            childColumns = "anime_id",
-            onDelete = ForeignKey.CASCADE
-        )
+    indices = {
+        @Index(value = "name", unique = true)
     }
 )
 public class Studio {
@@ -24,12 +20,17 @@ public class Studio {
   @ColumnInfo(name = "studio_id")
   private long id;
 
-  @ColumnInfo(name = "anime_id", index = true)
-  private long animeId;
+  @ColumnInfo(name = "mal_id")
+  private long malId;
 
-  @NonNull
+  @ColumnInfo(name = "type", collate = ColumnInfo.NOCASE)
+  private String type;
+
   @ColumnInfo(name = "name", collate = ColumnInfo.NOCASE)
   private String name = "";
+
+  @ColumnInfo(name = "url", collate = ColumnInfo.NOCASE)
+  private URL url;
 
   @NonNull
   @ColumnInfo(name = "date_created", index = true)
@@ -48,21 +49,36 @@ public class Studio {
     this.id = id;
   }
 
-  public long getAnimeId() {
-    return animeId;
+  public long getMalId() {
+    return malId;
   }
 
-  public void setAnimeId(long animeId) {
-    this.animeId = animeId;
+  public void setMalId(long malId) {
+    this.malId = malId;
   }
 
-  @NonNull
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
   public String getName() {
     return name;
   }
 
-  public void setName(@NonNull String name) {
+  public void setName(String name) {
     this.name = name;
+  }
+
+  public URL getUrl() {
+    return url;
+  }
+
+  public void setUrl(URL url) {
+    this.url = url;
   }
 
   @NonNull

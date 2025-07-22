@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "25d4d51804f8a7a4ec72a12a17f4bf8a",
+    "identityHash": "3ec2ce9adc78a56f6c7f850303925adf",
     "entities": [
       {
         "tableName": "user",
@@ -298,6 +298,406 @@
         ]
       },
       {
+        "tableName": "genre",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`genre_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mal_id` INTEGER NOT NULL, `type` TEXT COLLATE NOCASE, `name` TEXT COLLATE NOCASE, `url` TEXT COLLATE NOCASE, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "genre_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "malId",
+            "columnName": "mal_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "date_created",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modified",
+            "columnName": "date_modified",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "genre_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_genre_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_genre_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_genre_date_created",
+            "unique": false,
+            "columnNames": [
+              "date_created"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_genre_date_created` ON `${TABLE_NAME}` (`date_created`)"
+          },
+          {
+            "name": "index_genre_date_modified",
+            "unique": false,
+            "columnNames": [
+              "date_modified"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_genre_date_modified` ON `${TABLE_NAME}` (`date_modified`)"
+          }
+        ]
+      },
+      {
+        "tableName": "studio",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`studio_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mal_id` INTEGER NOT NULL, `type` TEXT COLLATE NOCASE, `name` TEXT COLLATE NOCASE, `url` TEXT COLLATE NOCASE, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "studio_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "malId",
+            "columnName": "mal_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "date_created",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modified",
+            "columnName": "date_modified",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "studio_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_studio_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_studio_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_studio_date_created",
+            "unique": false,
+            "columnNames": [
+              "date_created"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_studio_date_created` ON `${TABLE_NAME}` (`date_created`)"
+          },
+          {
+            "name": "index_studio_date_modified",
+            "unique": false,
+            "columnNames": [
+              "date_modified"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_studio_date_modified` ON `${TABLE_NAME}` (`date_modified`)"
+          }
+        ]
+      },
+      {
+        "tableName": "theme",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`theme_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mal_id` INTEGER NOT NULL, `type` TEXT COLLATE NOCASE, `name` TEXT COLLATE NOCASE, `url` TEXT COLLATE NOCASE, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "theme_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "malId",
+            "columnName": "mal_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "date_created",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modified",
+            "columnName": "date_modified",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "theme_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_theme_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_theme_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_theme_date_created",
+            "unique": false,
+            "columnNames": [
+              "date_created"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_theme_date_created` ON `${TABLE_NAME}` (`date_created`)"
+          },
+          {
+            "name": "index_theme_date_modified",
+            "unique": false,
+            "columnNames": [
+              "date_modified"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_theme_date_modified` ON `${TABLE_NAME}` (`date_modified`)"
+          }
+        ]
+      },
+      {
+        "tableName": "producer",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`producer_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mal_id` INTEGER NOT NULL, `type` TEXT COLLATE NOCASE, `name` TEXT COLLATE NOCASE, `url` TEXT COLLATE NOCASE, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "producer_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "malId",
+            "columnName": "mal_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "date_created",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modified",
+            "columnName": "date_modified",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "producer_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_producer_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_producer_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_producer_date_created",
+            "unique": false,
+            "columnNames": [
+              "date_created"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_producer_date_created` ON `${TABLE_NAME}` (`date_created`)"
+          },
+          {
+            "name": "index_producer_date_modified",
+            "unique": false,
+            "columnNames": [
+              "date_modified"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_producer_date_modified` ON `${TABLE_NAME}` (`date_modified`)"
+          }
+        ]
+      },
+      {
+        "tableName": "licensor",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`licensor_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mal_id` INTEGER NOT NULL, `type` TEXT COLLATE NOCASE, `name` TEXT COLLATE NOCASE, `url` TEXT COLLATE NOCASE, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "licensor_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "malId",
+            "columnName": "mal_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "date_created",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modified",
+            "columnName": "date_modified",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "licensor_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_licensor_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_licensor_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_licensor_date_created",
+            "unique": false,
+            "columnNames": [
+              "date_created"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_licensor_date_created` ON `${TABLE_NAME}` (`date_created`)"
+          },
+          {
+            "name": "index_licensor_date_modified",
+            "unique": false,
+            "columnNames": [
+              "date_modified"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_licensor_date_modified` ON `${TABLE_NAME}` (`date_modified`)"
+          }
+        ]
+      },
+      {
         "tableName": "favorite",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`favorite_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_id` INTEGER NOT NULL, `anime_id` INTEGER NOT NULL, `date_favorited` INTEGER NOT NULL, FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`anime_id`) REFERENCES `anime`(`anime_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
@@ -501,71 +901,6 @@
         ]
       },
       {
-        "tableName": "genre",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`genre_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL COLLATE NOCASE, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "genre_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "created",
-            "columnName": "date_created",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "modified",
-            "columnName": "date_modified",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "genre_id"
-          ]
-        },
-        "indices": [
-          {
-            "name": "index_genre_name",
-            "unique": true,
-            "columnNames": [
-              "name"
-            ],
-            "orders": [],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_genre_name` ON `${TABLE_NAME}` (`name`)"
-          },
-          {
-            "name": "index_genre_date_created",
-            "unique": false,
-            "columnNames": [
-              "date_created"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_genre_date_created` ON `${TABLE_NAME}` (`date_created`)"
-          },
-          {
-            "name": "index_genre_date_modified",
-            "unique": false,
-            "columnNames": [
-              "date_modified"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_genre_date_modified` ON `${TABLE_NAME}` (`date_modified`)"
-          }
-        ]
-      },
-      {
         "tableName": "anime_genre",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`anime_genre_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `anime_id` INTEGER NOT NULL, `genre_id` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, FOREIGN KEY(`anime_id`) REFERENCES `anime`(`anime_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`genre_id`) REFERENCES `genre`(`genre_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
@@ -655,12 +990,12 @@
         ]
       },
       {
-        "tableName": "studio",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`studio_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `anime_id` INTEGER NOT NULL, `name` TEXT NOT NULL COLLATE NOCASE, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL, FOREIGN KEY(`anime_id`) REFERENCES `anime`(`anime_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "tableName": "anime_studio",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`anime_studio_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `anime_id` INTEGER NOT NULL, `studio_id` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, FOREIGN KEY(`anime_id`) REFERENCES `anime`(`anime_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`studio_id`) REFERENCES `studio`(`studio_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "studio_id",
+            "columnName": "anime_studio_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -671,20 +1006,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "created",
-            "columnName": "date_created",
+            "fieldPath": "studioId",
+            "columnName": "studio_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "modified",
-            "columnName": "date_modified",
+            "fieldPath": "created",
+            "columnName": "date_added",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -692,36 +1021,36 @@
         "primaryKey": {
           "autoGenerate": true,
           "columnNames": [
-            "studio_id"
+            "anime_studio_id"
           ]
         },
         "indices": [
           {
-            "name": "index_studio_anime_id",
+            "name": "index_anime_studio_anime_id",
             "unique": false,
             "columnNames": [
               "anime_id"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_studio_anime_id` ON `${TABLE_NAME}` (`anime_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_studio_anime_id` ON `${TABLE_NAME}` (`anime_id`)"
           },
           {
-            "name": "index_studio_date_created",
+            "name": "index_anime_studio_studio_id",
             "unique": false,
             "columnNames": [
-              "date_created"
+              "studio_id"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_studio_date_created` ON `${TABLE_NAME}` (`date_created`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_studio_studio_id` ON `${TABLE_NAME}` (`studio_id`)"
           },
           {
-            "name": "index_studio_date_modified",
+            "name": "index_anime_studio_date_added",
             "unique": false,
             "columnNames": [
-              "date_modified"
+              "date_added"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_studio_date_modified` ON `${TABLE_NAME}` (`date_modified`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_studio_date_added` ON `${TABLE_NAME}` (`date_added`)"
           }
         ],
         "foreignKeys": [
@@ -735,13 +1064,291 @@
             "referencedColumns": [
               "anime_id"
             ]
+          },
+          {
+            "table": "studio",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "studio_id"
+            ],
+            "referencedColumns": [
+              "studio_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "anime_theme",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`anime_theme_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `anime_id` INTEGER NOT NULL, `theme_id` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, FOREIGN KEY(`anime_id`) REFERENCES `anime`(`anime_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`theme_id`) REFERENCES `theme`(`theme_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "anime_theme_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeId",
+            "columnName": "anime_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "themeId",
+            "columnName": "theme_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "date_added",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "anime_theme_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_anime_theme_anime_id",
+            "unique": false,
+            "columnNames": [
+              "anime_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_theme_anime_id` ON `${TABLE_NAME}` (`anime_id`)"
+          },
+          {
+            "name": "index_anime_theme_theme_id",
+            "unique": false,
+            "columnNames": [
+              "theme_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_theme_theme_id` ON `${TABLE_NAME}` (`theme_id`)"
+          },
+          {
+            "name": "index_anime_theme_date_added",
+            "unique": false,
+            "columnNames": [
+              "date_added"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_theme_date_added` ON `${TABLE_NAME}` (`date_added`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "anime",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "anime_id"
+            ],
+            "referencedColumns": [
+              "anime_id"
+            ]
+          },
+          {
+            "table": "theme",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "theme_id"
+            ],
+            "referencedColumns": [
+              "theme_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "anime_producer",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`anime_producer_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `anime_id` INTEGER NOT NULL, `producer_id` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, FOREIGN KEY(`anime_id`) REFERENCES `anime`(`anime_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`producer_id`) REFERENCES `producer`(`producer_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "anime_producer_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeId",
+            "columnName": "anime_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "producerId",
+            "columnName": "producer_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "date_added",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "anime_producer_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_anime_producer_anime_id",
+            "unique": false,
+            "columnNames": [
+              "anime_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_producer_anime_id` ON `${TABLE_NAME}` (`anime_id`)"
+          },
+          {
+            "name": "index_anime_producer_producer_id",
+            "unique": false,
+            "columnNames": [
+              "producer_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_producer_producer_id` ON `${TABLE_NAME}` (`producer_id`)"
+          },
+          {
+            "name": "index_anime_producer_date_added",
+            "unique": false,
+            "columnNames": [
+              "date_added"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_producer_date_added` ON `${TABLE_NAME}` (`date_added`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "anime",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "anime_id"
+            ],
+            "referencedColumns": [
+              "anime_id"
+            ]
+          },
+          {
+            "table": "producer",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "producer_id"
+            ],
+            "referencedColumns": [
+              "producer_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "anime_licensor",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`anime_licensor_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `anime_id` INTEGER NOT NULL, `licensor_id` INTEGER NOT NULL, `date_added` INTEGER NOT NULL, FOREIGN KEY(`anime_id`) REFERENCES `anime`(`anime_id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`licensor_id`) REFERENCES `licensor`(`licensor_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "anime_licensor_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeId",
+            "columnName": "anime_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "licensorId",
+            "columnName": "licensor_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "date_added",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "anime_licensor_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_anime_licensor_anime_id",
+            "unique": false,
+            "columnNames": [
+              "anime_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_licensor_anime_id` ON `${TABLE_NAME}` (`anime_id`)"
+          },
+          {
+            "name": "index_anime_licensor_licensor_id",
+            "unique": false,
+            "columnNames": [
+              "licensor_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_licensor_licensor_id` ON `${TABLE_NAME}` (`licensor_id`)"
+          },
+          {
+            "name": "index_anime_licensor_date_added",
+            "unique": false,
+            "columnNames": [
+              "date_added"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anime_licensor_date_added` ON `${TABLE_NAME}` (`date_added`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "anime",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "anime_id"
+            ],
+            "referencedColumns": [
+              "anime_id"
+            ]
+          },
+          {
+            "table": "licensor",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "licensor_id"
+            ],
+            "referencedColumns": [
+              "licensor_id"
+            ]
           }
         ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '25d4d51804f8a7a4ec72a12a17f4bf8a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3ec2ce9adc78a56f6c7f850303925adf')"
     ]
   }
 }
