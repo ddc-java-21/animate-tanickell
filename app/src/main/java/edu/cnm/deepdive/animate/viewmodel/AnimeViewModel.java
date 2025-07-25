@@ -9,7 +9,7 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.dto.Anime;
 import edu.cnm.deepdive.animate.model.entity.Apod;
 import edu.cnm.deepdive.animate.service.AnimeService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -22,8 +22,8 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
 
   private static final String TAG = AnimeViewModel.class.getSimpleName();
 
-  private final MutableLiveData<Apod> anime;
-  private final MutableLiveData<List<Apod>> animes;
+  private final MutableLiveData<Anime> anime;
+  private final MutableLiveData<List<Anime>> animes;
   private final MutableLiveData<Uri> downloadedImage;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
@@ -37,20 +37,19 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     animeService = AnimeService.getInstance(); // gets reference to the one AnimeService instance that exists
-    LocalDate today = LocalDate.now();
-    LocalDate lastMonth = today.minusMonths(1);
-    fetch(lastMonth, today);
+    Boolean sfw = true;
+    fetch(sfw);
   }
 
-  public LiveData<Apod> getAnime() {
+  public LiveData<Anime> getAnime() {
     return anime;
   }
 
-  public void setAnime(Apod anime) {
+  public void setAnime(Anime anime) {
     this.anime.setValue(anime);
   }
 
-  public LiveData<List<Apod>> getAnimes() {
+  public LiveData<List<Anime>> getAnimes() {
     return animes;
   }
 
@@ -66,10 +65,10 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
     return throwable;
   }
 
-  public void fetch(LocalDate date) {
+  public void fetch(int malId) {
     throwable.setValue(null); // monitoring no object right now // we're sure we're on the UI thread
     animeService
-        .getAnime(date)
+        .getAnime(malId)
         .subscribe( // consumers:
             anime::postValue, // invoked on thread other than UI thread
             this::postThrowable, // downstream
@@ -77,10 +76,10 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
         );
   }
 
-  public void fetch(LocalDate startDate, LocalDate endDate) {
+  public void fetch(Boolean sfw) {
     throwable.setValue(null);
     animeService
-        .getAnimes(startDate, endDate)
+        .getAnimes(sfw)
         .subscribe(
             animes::postValue,
             this::postThrowable,

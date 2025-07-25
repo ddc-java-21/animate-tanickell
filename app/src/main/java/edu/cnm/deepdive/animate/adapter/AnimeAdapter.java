@@ -12,8 +12,11 @@ import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.ItemAnimeBinding;
 //import edu.cnm.deepdive.animate.model.entity.Anime.MediaType;
+import edu.cnm.deepdive.animate.model.dto.Anime;
+import edu.cnm.deepdive.animate.model.dto.Anime.Type;
 import edu.cnm.deepdive.animate.model.entity.Apod.MediaType;
 import edu.cnm.deepdive.animate.model.entity.Apod;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
@@ -25,13 +28,13 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
   private static final Pattern YOUTUBE_URL =
       Pattern.compile("^(?:https?://)?(?:www\\.)?(?:youtube\\.com/(?:watch\\?v=|embed/|v/)|youtu\\.be/)([a-zA-Z0-9_-]{11})(?:\\S+)?$");
   private static final String YOUTUBE_THUMBNAIL_URL = "https://img.youtube.com/vi/%s/0.jpg";
-  private final List<Apod> animes;
+  private final List<Anime> animes;
   private final OnAnimeClickListener onThumbnailClickListener;
   private final OnAnimeClickListener onInfoClickListener;
   private final LayoutInflater inflater;
   private final DateTimeFormatter formatter;
 
-  public AnimeAdapter(@NonNull Context context, @NonNull List<Apod> animes,
+  public AnimeAdapter(@NonNull Context context, @NonNull List<Anime> animes,
       @NonNull OnAnimeClickListener onThumbnailClickListener,
       @NonNull OnAnimeClickListener onInfoClickListener) {
     this.animes = animes;
@@ -67,20 +70,21 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
       this.binding = binding;
     }
 
-    void bind(int position, Apod anime) {
+    void bind(int position, Anime anime) {
       binding.title.setText(anime.getTitle().strip());
-      binding.date.setText(formatter.format(anime.getDate()));
+      binding.date.setText(formatter.format(
+          OffsetDateTime.parse(anime.getAired().getFrom().toString()).toLocalDate()));
       binding.mediaTypeThumbnail.setVisibility(View.VISIBLE);
       binding.thumbnail.setContentDescription(anime.getTitle()); // DONE: 6/4/25 Include more info.
       binding.thumbnail.setOnClickListener(
           (v) -> onThumbnailClickListener.onAnimeClick(anime, position)); // just receives a view object
       binding.info.setOnClickListener((v) -> onInfoClickListener.onAnimeClick(anime, position));
-      MediaType mediaType = anime.getMediaType();
-      if (mediaType == MediaType.IMAGE) {
-        loadThumbnail(anime.getUrl().toString());
+      Type type = anime.getType();
+      if (type == Type.TV) {
+        loadThumbnail(anime.getImages().getJpg().getImageUrl().toString());
         binding.mediaTypeThumbnail.setImageResource(R.drawable.photo_camera);
-      } else if (mediaType == MediaType.VIDEO) {
-        Matcher matcher = YOUTUBE_URL.matcher(anime.getUrl().toString());
+      } else if (type == Type.MOVIE) {
+        Matcher matcher = YOUTUBE_URL.matcher(anime.getImages().getJpg().getImageUrl().toString());
         if (matcher.matches()) {
           String videoId = matcher.group(1);
           String thumbnailUrl = String.format(YOUTUBE_THUMBNAIL_URL, videoId); // String thumbnailUrl = YOUTUBE_THUMBNAIL_URL.formatted(videoId);
@@ -108,7 +112,7 @@ public class AnimeAdapter extends Adapter<ViewHolder> {
   @FunctionalInterface
   public interface OnAnimeClickListener {
 
-    void onAnimeClick(Apod anime, int position);
+    void onAnimeClick(Anime anime, int position);
 
   }
 

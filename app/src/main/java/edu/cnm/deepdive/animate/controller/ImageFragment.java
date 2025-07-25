@@ -31,16 +31,18 @@ import com.squareup.picasso.Target;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentImageBinding;
 //import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.dto.Anime;
 import edu.cnm.deepdive.animate.model.entity.Apod;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ImageFragment extends Fragment implements MenuProvider {
 
   private FragmentImageBinding binding;
-  private Apod anime;
+  private Anime anime;
   private AnimeViewModel viewModel;
 
   @Nullable
@@ -96,20 +98,25 @@ public class ImageFragment extends Fragment implements MenuProvider {
           .navigate(ImageFragmentDirections.displayInfo());
     } else if (itemId == R.id.download_image) {
       handled = true; // again, otherwise it'll keep asking other menu providers
-      URL hdurl = anime.getHdurl();
-      viewModel.downloadImage(anime.getTitle(), (hdurl != null) ? hdurl : anime.getUrl());
+      URL hdurl = null;
+      try {
+        hdurl = new URL(anime.getImages().getJpg().getLargeImageUrl());
+        viewModel.downloadImage(anime.getTitle(), (hdurl != null) ? hdurl : new URL(anime.getImages().getJpg().getImageUrl()));
+      } catch (MalformedURLException e) {
+        throw new RuntimeException(e);
+      }
     }
     return handled;
   }
 
-  private void displayAnime(Apod anime) {
+  private void displayAnime(Anime anime) {
     this.anime = anime;
     //noinspection DataFlowIssue
     ((AppCompatActivity) requireActivity())
         .getSupportActionBar() // we know we have an action bar, so even though it's nullable, we'll be ok
         .setTitle(anime.getTitle());
     Picasso.get()
-        .load(Uri.parse(anime.getUrl().toString()))
+        .load(Uri.parse(anime.getImages().getJpg().getImageUrl()))
         .into(new ImageFinalizer());
   }
 

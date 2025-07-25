@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.adapter.AnimeAdapter;
 import edu.cnm.deepdive.animate.databinding.FragmentListBinding;
-import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.dto.Anime;
 import edu.cnm.deepdive.animate.model.entity.Apod;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 
@@ -55,14 +55,14 @@ public class ListFragment extends Fragment {
     super.onDestroyView();
   }
 
-  private void navigateToInfo(Apod anime) {
+  private void navigateToInfo(Anime anime) {
     viewModel.setAnime(anime);
     Navigation.findNavController(binding.getRoot())
         .navigate(ListFragmentDirections.displayInfo());
   }
 
-  private void navigateToMedia(Apod anime) {
-    if (anime.getMediaType() == null) {
+  private void navigateToMedia(Anime anime) {
+    if (anime.getType() == null) {
       Snackbar.make(
               binding.getRoot(), R.string.no_media_display, Snackbar.LENGTH_LONG)
           .show();
@@ -70,9 +70,9 @@ public class ListFragment extends Fragment {
       viewModel.setAnime(anime);
       NavController navController = Navigation.findNavController(
           binding.getRoot());
-      switch (anime.getMediaType()) {
-        case IMAGE -> navController.navigate(ListFragmentDirections.displayImage());
-        case VIDEO -> navController.navigate(ListFragmentDirections.displayVideo());
+      switch (anime.getType()) {
+        case TV -> navController.navigate(ListFragmentDirections.displayImage());
+        case MOVIE -> navController.navigate(ListFragmentDirections.displayVideo());
       }
     }
   }

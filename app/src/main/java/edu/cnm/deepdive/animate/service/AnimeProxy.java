@@ -10,8 +10,11 @@ import com.google.gson.JsonParseException;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.model.entity.Anime;
 import edu.cnm.deepdive.animate.model.entity.Apod;
+import edu.cnm.deepdive.animate.model.dto.Anime.InstanceWrapper;
+import edu.cnm.deepdive.animate.model.dto.Anime.ListWrapper;
 import io.reactivex.rxjava3.core.Single;
 import java.lang.reflect.Type;
+import java.time.Instant;
 import java.time.LocalDate;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -23,6 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -30,16 +34,28 @@ public interface AnimeProxy {
 
   Context[] contexts = new Context[1];
 
-  @GET("planetary/apod")
-  Single<Apod> get(@Query("date") LocalDate date, @Query("api_key") String apiKey); // get "black box" to send across the wire; include data in request
+//  @GET("planetary/apod")
+//  Single<Apod> get(@Query("date") LocalDate date, @Query("api_key") String apiKey); // get "black box" to send across the wire; include data in request
+//
+//  @GET("planetary/apod")
+//  Single<Apod[]> get(
+//      @Query("start_date") LocalDate startDate, @Query("end_date") LocalDate endDate,
+//      @Query("api_key") String apiKey);
+//
+//  @GET()
+//  Call<ResponseBody> download(@Url String url); // Single<ResponseBody> doesn't include headers
 
-  @GET("planetary/apod")
-  Single<Apod[]> get(
-      @Query("start_date") LocalDate startDate, @Query("end_date") LocalDate endDate,
-      @Query("api_key") String apiKey);
+  @GET("anime/{id}")
+  Single<InstanceWrapper> get(@Path("id") int malId);
+
+  @GET("anime")
+  Single<ListWrapper> get(@Query("q") String name, @Query("sfw") Boolean sfw); // get "black box" to send across the wire; include data in request
+
+  @GET("seasons/now")
+  Single<ListWrapper> get(@Query("sfw") Boolean sfw);
 
   @GET()
-  Call<ResponseBody> download(@Url String url); // Single<ResponseBody> doesn't include headers
+  Call<ResponseBody> download(@Url String url);
 
   static AnimeProxy getInstance() {
     return Holder.INSTANCE;
@@ -57,6 +73,7 @@ public interface AnimeProxy {
       Gson gson = new GsonBuilder()
           .excludeFieldsWithoutExposeAnnotation() // returns the builder again, but configured
           .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
+          .registerTypeAdapter(Instant.class, new InstantDeserializer())
           .create();
       Interceptor loggingInterceptor = new HttpLoggingInterceptor()
           .setLevel(Level.BODY); // BODY logs ALL to the console, including payloads; NONE logs nothing
@@ -81,6 +98,15 @@ public interface AnimeProxy {
         return LocalDate.parse(jsonElement.getAsString());
       }
 
+    }
+
+    private static class InstantDeserializer implements JsonDeserializer<Instant> {
+
+      @Override
+      public Instant deserialize(JsonElement jsonElement, Type type,
+          JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        return Instant.parse(jsonElement.getAsString());
+      }
     }
 
   }

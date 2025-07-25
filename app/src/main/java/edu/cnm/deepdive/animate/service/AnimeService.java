@@ -9,11 +9,14 @@ import android.os.Environment;
 import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.MediaColumns;
 import edu.cnm.deepdive.animate.R;
-import edu.cnm.deepdive.animate.model.entity.Anime;
+import edu.cnm.deepdive.animate.model.dto.Anime;       // USING DTO ANIME, NOT ENTITY ANIME
+import edu.cnm.deepdive.animate.model.dto.Anime.InstanceWrapper;
+import edu.cnm.deepdive.animate.model.dto.Anime.ListWrapper;
 import edu.cnm.deepdive.animate.model.entity.Apod;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;
+import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,12 +36,12 @@ public class AnimeService {
   private static Context context;
 
   private final AnimeProxy proxy;
-  private final String apiKey;
+//  private final String apiKey;
   private final Scheduler scheduler;
 
   private AnimeService() throws IOException {
     proxy = AnimeProxy.getInstance();
-    apiKey = context.getString(R.string.api_key);
+//    apiKey = context.getString(R.string.api_key); // TN 2025-07-24 don't need API key for now
     scheduler = Schedulers.io();
   }
 
@@ -46,16 +49,27 @@ public class AnimeService {
     AnimeService.context = context;
   }
 
-  public Single<Apod> getAnime(LocalDate date) {
+  public Single<Anime> getAnime(int malId) {
     return proxy
-        .get(date, apiKey)
+        .get(malId)
+        .map(new Function<InstanceWrapper, Anime>() {
+          @Override
+          public Anime apply(InstanceWrapper instanceWrapper) {
+            return instanceWrapper.getData();
+          }
+        })
         .subscribeOn(scheduler); // returning instead of an anime object, the piece of machinery that will fetch the Anime and pass it downstream WHEN TURNED ON
   }
-  public Single<List<Apod>> getAnimes(LocalDate startDate, LocalDate endDate) {
+  public Single<List<Anime>> getAnimes(Boolean sfw) {
     return proxy
-        .get(startDate, endDate, apiKey)
-        .subscribeOn(scheduler)
-        .map(Arrays::asList);
+        .get(sfw)
+        .map(new Function<ListWrapper, List<Anime>>() {
+          @Override
+          public List<Anime> apply(ListWrapper listWrapper) {
+            return listWrapper.getData();
+          }
+        })
+        .subscribeOn(scheduler);
   }
 
   public Single<Uri> downloadImage(String title, URL url) {
