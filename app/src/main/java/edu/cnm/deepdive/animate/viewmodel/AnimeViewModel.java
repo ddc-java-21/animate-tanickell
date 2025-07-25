@@ -11,7 +11,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import edu.cnm.deepdive.animate.model.dto.Anime;
 import edu.cnm.deepdive.animate.model.entity.Apod;
+import edu.cnm.deepdive.animate.model.entity.User;
 import edu.cnm.deepdive.animate.service.AnimeService;
+import edu.cnm.deepdive.animate.service.UserRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.net.URL;
 import java.time.LocalDate;
@@ -22,6 +24,10 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
 
   private static final String TAG = AnimeViewModel.class.getSimpleName();
 
+  private final UserRepository userRepository;
+
+
+  private final MutableLiveData<User> user;
   private final MutableLiveData<Anime> anime;
   private final MutableLiveData<List<Anime>> animes;
   private final MutableLiveData<Uri> downloadedImage;
@@ -29,8 +35,11 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
   private final CompositeDisposable pending;
   private final AnimeService animeService;
 
-  public AnimeViewModel(@NonNull Application application) {
+  public AnimeViewModel(@NonNull Application application, UserRepository userRepository,
+      MutableLiveData<User> user) {
     super(application);
+    this.userRepository = userRepository;
+    this.user = user;
     anime = new MutableLiveData<>();
     animes = new MutableLiveData<>();
     downloadedImage = new MutableLiveData<>();
@@ -103,6 +112,17 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
   public void onStop(@NotNull LifecycleOwner owner) {
     pending.clear();
     DefaultLifecycleObserver.super.onStop(owner);
+  }
+
+  public void fetchUser() { // could query the notes for the user before the user is loaded;
+    throwable.setValue(null);
+    userRepository
+        .getCurrentUser()
+        .subscribe(
+            user::postValue,
+            this::postThrowable,
+            pending
+        );
   }
 
   private void postThrowable(Throwable throwable) {

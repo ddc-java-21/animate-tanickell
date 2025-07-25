@@ -30,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void setupNavigation() {
-    appBarConfiguration = new AppBarConfiguration.Builder(R.id.list_fragment).build();
+    appBarConfiguration = new AppBarConfiguration.Builder(
+        R.id.pre_login_fragment, R.id.login_fragment, R.id.list_fragment)
+        .build();
     navController =
         ((NavHostFragment) binding.navHostFragmentContainer.getFragment()).getNavController();     // reference to the piece of machinery that will swap in one fragment for another
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

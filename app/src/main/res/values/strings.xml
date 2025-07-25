@@ -13,4 +13,7 @@
   <string name="download_title">Download image</string>
   <string name="image_downloaded">Image downloaded</string>
   <string name="view_image">View</string>
+  <string name="login_fragment_label">Sign In to AniMate</string>
+  <string name="sign_in_failure_message">Unable to sign in with provided credentials.</string>
+  <string name="sign_out_title">Sign Out</string>
 </resources>
