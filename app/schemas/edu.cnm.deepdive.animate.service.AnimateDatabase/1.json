@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a332bbcfc96f88ee175455c1b5c7453f",
+    "identityHash": "3ec2ce9adc78a56f6c7f850303925adf",
     "entities": [
       {
         "tableName": "user",
@@ -68,7 +68,7 @@
       },
       {
         "tableName": "anime",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`anime_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mal_id` INTEGER, `mal_url` TEXT, `poster_url` TEXT, `trailer_url` TEXT, `title_english` TEXT COLLATE NOCASE, `title_japanese` TEXT COLLATE NOCASE, `source` TEXT, `episodes` INTEGER, `status` TEXT, `airing` INTEGER, `date_released` INTEGER, `date_finished` INTEGER, `aired_summary` TEXT, `duration` TEXT, `rating` TEXT, `score` REAL, `rank` INTEGER, `popularity` INTEGER, `background` TEXT, `broadcast` TEXT, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL, `images` TEXT, `title` TEXT, `synopsis` TEXT, `season` TEXT, `year` INTEGER NOT NULL, `aired` TEXT, `type` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`anime_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mal_id` INTEGER, `mal_url` TEXT, `poster_url` TEXT, `trailer_url` TEXT, `title` TEXT COLLATE NOCASE, `title_english` TEXT COLLATE NOCASE, `title_japanese` TEXT COLLATE NOCASE, `type` TEXT, `source` TEXT, `episodes` INTEGER, `status` TEXT, `airing` INTEGER, `date_released` INTEGER, `date_finished` INTEGER, `aired_summary` TEXT, `duration` TEXT, `rating` TEXT, `score` REAL, `rank` INTEGER, `popularity` INTEGER, `synopsis` TEXT, `background` TEXT, `season` TEXT, `year` INTEGER, `broadcast` TEXT, `date_created` INTEGER NOT NULL, `date_modified` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -97,6 +97,11 @@
             "affinity": "TEXT"
           },
           {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          },
+          {
             "fieldPath": "titleEnglish",
             "columnName": "title_english",
             "affinity": "TEXT"
@@ -104,6 +109,11 @@
           {
             "fieldPath": "titleJapanese",
             "columnName": "title_japanese",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
             "affinity": "TEXT"
           },
           {
@@ -167,9 +177,24 @@
             "affinity": "INTEGER"
           },
           {
+            "fieldPath": "synopsis",
+            "columnName": "synopsis",
+            "affinity": "TEXT"
+          },
+          {
             "fieldPath": "background",
             "columnName": "background",
             "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "season",
+            "columnName": "season",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "broadcast",
@@ -187,42 +212,6 @@
             "columnName": "date_modified",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "images",
-            "columnName": "images",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "title",
-            "columnName": "title",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "synopsis",
-            "columnName": "synopsis",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "season",
-            "columnName": "season",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "year",
-            "columnName": "year",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "aired",
-            "columnName": "aired",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "type",
-            "columnName": "type",
-            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -1359,7 +1348,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a332bbcfc96f88ee175455c1b5c7453f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3ec2ce9adc78a56f6c7f850303925adf')"
     ]
   }
 }

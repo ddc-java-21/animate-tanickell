@@ -20,14 +20,14 @@ public class AnimateApplication extends Application {
     AnimeProxy.setContext(this);
     AnimeService.setContext(this);
     Picasso.setSingletonInstance(new Picasso.Builder(this).build());
-//
+
 //    new RoomDatabase.Builder<>(this, AnimateDatabase.class, "animate-db")
 //        .build()
 //        .getAnimeDao()
 //        .deleteAll()
 //        .subscribeOn(Schedulers.io())
 //        .subscribe();
-//  }
+  }
 
 //  @Override
 //  public void onCreate() {
@@ -35,6 +35,6 @@ public class AnimateApplication extends Application {
 //    ApodProxy.setContext(this);
 //    ApodService.setContext(this);
 //    Picasso.setSingletonInstance(new Picasso.Builder(this).build());
-  }
+//  }
 
 }
