@@ -130,13 +130,13 @@ implemented:
 
 ## Stretch goals and possible enhancements
 
-1. Sorting (or populating) main list by more than just one attribute at a time
-2. Sorting by more than just genre, or by season & year
-3. Adding licensors, producers, and themes (and accompanying bridge entities)
+* Sorting (or populating) main list by more than just one attribute at a time
+* Sorting by more than just genre, or by season & year
+* Adding licensors, producers, and themes (and accompanying bridge entities)
     - many-to-many relationships in the web api
-4. Option to download multiple image types (small image, big image, etc.)
-5. Add avatar to user and allow for uploading picture
-6. Create separate views for specific episodes
-7. Ability to leave comments on anime episodes (for personal review)
-8. (Larger Stretch) Development of a server application to host comments for
+* Option to download multiple image types (small image, big image, etc.)
+* Add avatar to user and allow for uploading picture
+* Create separate views for specific episodes
+* Ability to leave comments on anime episodes (for personal review)
+* (Larger Stretch) Development of a server application to host comments for
    multiple users at once, like a message board or reddit-style comment section
