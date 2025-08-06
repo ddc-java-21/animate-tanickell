@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import com.google.android.material.snackbar.Snackbar;
+import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.adapter.AnimeAdapter;
 import edu.cnm.deepdive.animate.databinding.FragmentListBinding;
@@ -25,6 +26,7 @@ import edu.cnm.deepdive.animate.model.dto.Anime;
 import edu.cnm.deepdive.animate.viewmodel.AnimeViewModel;
 import edu.cnm.deepdive.animate.viewmodel.LoginViewModel;
 
+@AndroidEntryPoint
 public class ListFragment extends Fragment implements MenuProvider {
 
   private static final String TAG = ListFragment.class.getSimpleName();

@@ -6,9 +6,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.ActivityMainBinding;
 
+//@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = MainActivity.class.getSimpleName();

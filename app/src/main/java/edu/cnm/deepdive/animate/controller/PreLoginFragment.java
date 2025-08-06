@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.viewmodel.LoginViewModel;
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 public class PreLoginFragment extends Fragment {
 
   private View root;

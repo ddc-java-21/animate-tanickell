@@ -9,6 +9,7 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import edu.cnm.deepdive.animate.model.dto.Anime;
 import edu.cnm.deepdive.animate.model.entity.Apod;
 import edu.cnm.deepdive.animate.model.entity.User;
@@ -18,8 +19,10 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
+import javax.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 
+@HiltViewModel
 public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycleObserver {
 
   private static final String TAG = AnimeViewModel.class.getSimpleName();
@@ -35,6 +38,7 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
   private final CompositeDisposable pending;
   private final AnimeService animeService;
 
+//  @Inject
   public AnimeViewModel(@NonNull Application application, UserRepository userRepository,
       MutableLiveData<User> user) {
     super(application);

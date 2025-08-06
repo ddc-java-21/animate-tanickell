@@ -19,7 +19,7 @@ import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.FragmentLoginBinding;
 import edu.cnm.deepdive.animate.viewmodel.LoginViewModel;
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 public class LoginFragment extends Fragment {
 
   private FragmentLoginBinding binding;
