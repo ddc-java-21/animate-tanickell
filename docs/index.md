@@ -92,19 +92,41 @@ show information that has been saved locally, without the use of the external AP
 
 * Jikan API: [https://jikan.moe/](https://jikan.moe/)
 
-## Stretch goals and possible enhancements
+## Current state of the project - Wed Aug 6, 2025
 
-As of today (Wednesday August 6, 2025), the following functionality is complete:
+As of today, the following functionality has been completed:
 
 * Migration of base classes from APoD to Anime
-* Entity classes and bridge entities matching data returned for each anime, including:
-    * 
-    * Studio
-    * Genre
-    * Producer
-    * Licensor
-    * Tag
+* Implementation of Anime entity class with fields matching information available from
+  MyAnimeList via the Jikan API
+* Entity classes for data with many-to-many relationships with anime, including:
+  * Theme
+  * Studio
+  * Genre
+  * Producer
+  * Licensor
+* Entities for app-specific functionality (Tag, Favorite)
+* Bridge entity classes for many-to-many entities
+* DAO classes for querying and retrieving information from the database
+* Working database build using entity classes with proper key and constraint relationships
 * Retrieval of anime information from Jikan API
+* Storage (in-memory) of information using Anime data transfer object (DTO) class
+* Successful display of retrieved information in UI (following APoD layout structure)
+
+The following are features initially planned for completion by this date, but are not yet
+implemented:
+
+* Migration of Anime class to Hilt dependency injection framework
+* Setup of Google Sign-in using OAuth2 authentication
+* Repository classes connecting the DAO classes to service methods
+* Testing to ensure the database is properly updated and data is correctly persisted
+* More fields in the Anime DTO to capture and store more information from the Jikan API
+* Using the Anime entity class to persist this information
+* Querying the database for cached information before making API calls
+* Filtering functionality (e.g., additional views or view changes) to list Anime by other
+  attributes, such as genre
+* Additional view for displaying embedded YouTube video (watching trailers)
+* Additional "Favorites" and "Tag" features allowing user to make personal lists
 
 ## Stretch goals and possible enhancements
 
