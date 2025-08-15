@@ -127,6 +127,7 @@ implemented:
   attributes, such as genre
 * Additional view for displaying embedded YouTube video (watching trailers)
 * Additional "Favorites" and "Tag" features allowing user to make personal lists
+* javadocs documentation
 
 ## Stretch goals and possible enhancements
 
