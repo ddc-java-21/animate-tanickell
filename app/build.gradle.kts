@@ -44,6 +44,7 @@ android {
             "de.mannodermaus.junit5.AndroidJUnit5Builder"
 
         resValue("string", "app_name", project.property("appName") as String)
+        resValue("string", "client_id", getLocalProperty("clientId"))
         resValue("string", "base_url", getLocalProperty("base_url"))
         resValue("string", "api_key", getLocalProperty("api_key"))
 

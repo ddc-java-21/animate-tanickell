@@ -38,12 +38,11 @@ public class AnimeViewModel extends AndroidViewModel implements DefaultLifecycle
   private final CompositeDisposable pending;
   private final AnimeService animeService;
 
-//  @Inject
-  public AnimeViewModel(@NonNull Application application, UserRepository userRepository,
-      MutableLiveData<User> user) {
+  @Inject
+  public AnimeViewModel(@NonNull Application application, UserRepository userRepository) {
     super(application);
     this.userRepository = userRepository;
-    this.user = user;
+    user = new MutableLiveData<>();
     anime = new MutableLiveData<>();
     animes = new MutableLiveData<>();
     downloadedImage = new MutableLiveData<>();

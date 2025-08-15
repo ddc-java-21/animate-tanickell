@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.animate.R;
 import edu.cnm.deepdive.animate.databinding.ActivityMainBinding;
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = MainActivity.class.getSimpleName();
